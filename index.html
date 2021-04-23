@@ -216,634 +216,102 @@ h4 {
   <div id="chordGraph" class="one-bottom"></div>
   <p id="demo"></p>
 
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>D3 in Action Arc Diagram</title>
+  <meta charset="utf-8" />
+</head>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="http://d3js.org/queue.v1.min.js" type="text/javascript"></script>
+<style>
+.tick line {
+  shape-rendering: crispEdges;
+  stroke: #000;
+}
 
-  <script>
+line.minor  {
+  stroke: #777;
+  stroke-dasharray: 2,2;
+}
 
-    // STEP 1: Setup
+path.domain {
+  fill: none;
+  stroke: black;
+}
 
-    var margin = 50;
-    var width = 800;
+</style>
+<body onload="arcDiagram()">
 
-    var xPos = margin;
-    var yPos = margin;
-
-    var thickness = 30;
-    var diameter = width - 2*margin;
-    var outerRadius = diameter / 2;
-    var innerRadius = outerRadius - thickness;
-
-    L.mapbox.accessToken = 'pk.eyJ1IjoiZGltcCIsImEiOiJkRnlra3RjIn0.E9CTYzNUEx0yb3dcfV4SiA';
-
-    /*var map_1 = L.mapbox.map('map_1')
-    .setView([42.3601,-71.0589], 12)
-    .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/light-v10'));
-    map_1
-    .scrollWheelZoom.disable();
-                                    
-    var path_o = {
-          radius :  60,
-          color : d3.rgb(16,52,166).brighter(),
-          stroke: true,
-          weight : 1,
-          fill : true,
-          Color: d3.rgb(16,52,166).brighter(),
-        };
-                                    
-    L.circleMarker([42.3601,-71.0589], path_o).addTo(map_1)
-  */                            
-                                    
-    d3.csv("201706-hubway-tripdata.csv", function(tripData) {
-      d3.csv("201906-bluebikes-tripdata.csv", function(tripData2019) {
-      d3.csv("Hubway_Stations_as_of_July_2017.csv", function(station_2017Data){
-        //console.log(tripData);
-        
-        var name_matrix = [];
-        var number_of_trips = 0;
-        var number_of_stations = 0;
-        var colorMatrix = {};
-
-        var stations = station_2017Data.map(function(aData)
-        {
-          var station = {};
-
-          station.a_station = +aData["Number"];
-          station.station_name = aData["Name"];
-          station.station_lat = +aData["Latitude"];
-          station.station_lng = +aData["Longitude"];
-          station.district = aData["District"];
-          station.public = aData["Public"];
-          station.total_docks = +aData["Total docks"];
-          
-          return station;
-        });
-
-        var trips = tripData.map(function(aData)
-        {
-          var trip = {};
-
-          trip.starttime = d3.time.format("%Y-%m-%d %H:%M:%S").parse(aData["starttime"].slice(0,-5));
-          trip.stoptime = d3.time.format("%Y-%m-%d %H:%M:%S").parse(aData["stoptime"].slice(0,-5));
-          trip.duration = +aData["tripduration"];
-          trip.start_station = +aData["start station id"];
-          trip.end_station = +aData["end station id"];
-          trip.start_station_name = aData["start station name"];
-          trip.end_station_name = aData["end station name"];
-          trip.start_station_lat = +aData["start station latitude"];
-          trip.end_station_lat = +aData["end station latitude"];
-          trip.start_station_lng = +aData["start station longitude"];
-          trip.end_station_lng = +aData["end station longitude"];
-          trip.bikeid = +aData["bikeid"];
-          trip.usertype = aData["usertype"];
-          
-          return trip;
-        });
-
-        var trips2019 = tripData2019.map(function(aData)
-        {
-          var trip = {};
-
-          trip.starttime = d3.time.format("%Y-%m-%d %H:%M:%S").parse(aData["starttime"].slice(0,-5));
-          trip.stoptime = d3.time.format("%Y-%m-%d %H:%M:%S").parse(aData["stoptime"].slice(0,-5));
-          trip.duration = +aData["tripduration"];
-          trip.start_station = +aData["start station id"];
-          trip.end_station = +aData["end station id"];
-          trip.start_station_name = aData["start station name"];
-          trip.end_station_name = aData["end station name"];
-          trip.start_station_lat = +aData["start station latitude"];
-          trip.end_station_lat = +aData["end station latitude"];
-          trip.start_station_lng = +aData["start station longitude"];
-          trip.end_station_lng = +aData["end station longitude"];
-          trip.bikeid = +aData["bikeid"];
-          trip.usertype = aData["usertype"];
-          
-          return trip;
-        });
-
-        stationData = getStationsFromTrips(trips);
-        stationData2019 = getStationsFromTrips(trips2019);
-          od_matrix = createMatrix(trips, stationData);
-
-        document.getElementById("demo").innerHTML = "NumStations: " + number_of_stations
-        + "<br>NumTrips: </br>" + number_of_trips;
-
-        var color = d3.scale.linear()
-          .domain([0, stationData.length])
-          .range([d3.rgb(136, 0, 255), d3.rgb(22, 0, 50)]);
-
-        var stationNameArray = [];
-
-        var map_2 = L.mapbox.map('map_2')
-        .setView([42.3601,-71.0589], 12)
-        .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/light-v10'));
-        map_2
-        .scrollWheelZoom.disable();
-
-        stations.forEach(function(station){
-
-          stationNameArray.push(station.station_name);
-
-          station.station_lat = +station.station_lat;
-          station.station_lng = +station.station_lng;
-          
-          var path_options = {};
-          var isStart = "";
-
-          if(station.public == 1) {
-            path_options = {
-              radius :  6,
-              color : d3.rgb(16,52,166).brighter(),
-              stroke: true,
-              weight : 1,
-              fill : true,
-              Color: d3.rgb(16,52,166).brighter(),
-            };
-            isStart = "Public Station";
-          }
-          else{
-            path_options = {
-              radius :  6,
-              color : d3.rgb(166,16,16).brighter(),
-              stroke: true,
-              weight : 1,
-              fill : true,
-              Color: d3.rgb(166,16,16).darker(),
-            };
-            isStart = "Private Station";
-          }
-
-          
-          L.circleMarker([station.station_lat, station.station_lng], path_options).addTo(map_2).bindPopup(
-          "Station Name: " + station.station_name 
-          + "<br>District: </br>" + station.district 
-          + "<br>Total Docks: </br>" + station.total_docks 
-          + "<br>" + isStart + "</br>");
-        });
-        
-
-        var map_2_5 = L.mapbox.map('map_2_5')
-        .setView([42.3601,-71.0589], 12)
-        .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/light-v10'));
-        map_2_5
-        .scrollWheelZoom.disable();
-
-        stationData2019.forEach(function(station){
-
-          station.lat = +station.lat;
-          station.lng = +station.lng;
-           
-          var path_options = {};
-          var skip = false;
-
-          if(stationNameArray.includes(station.name))
-          {
-            skip = true;
-            path_options = {
-              radius :  6,
-              color : d3.rgb(166,16,16).brighter(),
-              stroke: true,
-              weight : 1,
-              fill : true,
-              Color: d3.rgb(166,16,16).darker(),
-            };
-          }
-          else
-          {
-            skip = false;
-            path_options = {
-              radius :  6,
-              color : d3.rgb(16,52,166).brighter(),
-              stroke: true,
-              weight : 1,
-              fill : true,
-              Color: d3.rgb(16,52,166).brighter(),
-            };
-          }
-          
-          if(!skip){
-          L.circleMarker([station.lat, station.lng], path_options).addTo(map_2_5).bindPopup(
-          "Station Name: " + station.name 
-          + "<br>Station ID: </br>" + station.station_id);
-          }
-        });
-
-
-
-        var map_3 = L.mapbox.map('map_3')
-        .setView([42.3601,-71.0589], 12)
-        .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/light-v10'));
-        map_3
-        .scrollWheelZoom.disable();
-
-        stationData2019.forEach(function(station){
-
-          station.lat = +station.lat;
-          station.lng = +station.lng;
-           
-          var path_options = {};
-
-          if(stationNameArray.includes(station.name))
-          {
-            path_options = {
-              radius :  6,
-              color : d3.rgb(166,16,16).brighter(),
-              stroke: true,
-              weight : 1,
-              fill : true,
-              Color: d3.rgb(166,16,16).darker(),
-            };
-          }
-          else
-          {
-            path_options = {
-              radius :  6,
-              color : d3.rgb(16,52,166).brighter(),
-              stroke: true,
-              weight : 1,
-              fill : true,
-              Color: d3.rgb(16,52,166).brighter(),
-            };
-          }
-          
-          L.circleMarker([station.lat, station.lng], path_options).addTo(map_3).bindPopup(
-          "Station Name: " + station.name 
-          + "<br>Station ID: </br>" + station.station_id);
-          
-        });
-        /*
-        var map_3 = L.mapbox.map('map_3')
-        .setView([35.22732,-80.83827], 12)
-        .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/light-v10'));
-        map_3
-        .scrollWheelZoom.disable();
-        stations.start_station_id.forEach(function(station){
-          station.start_station_latitude = +station.start_station_latitude;
-          station.start_station_longitude = +station.start_station_longitude;
-          var inventory_level = station.num_bikes_available / (station.num_bikes_available+station.num_docks_available);
-          var path_options = {
-            radius :  0.5 * (station.num_bikes_available + station.num_docks_available),
-            color : d3.rgb(16,52,166).brighter(),
-            fillColor : (function(){
-              if(station.num_bikes_available_types.electric > 0) {
-                if(inventory_level > 0.5) {
-                  return d3.rgb(16,52,166).darker(2)
-                }
-                return d3.rgb(16,52,166)
-              }
-              if(station.num_bikes_available_types.smart > 0) {
-                if(inventory_level > 0.5) {
-                  return d3.rgb(245, 141, 66).darker(2)
-                }
-                return d3.rgb(245, 141, 66)
-              }
-              if(station.num_bikes_available_types.classic > 0) {
-                if(inventory_level > 0.5) {
-                  return d3.rgb(38, 166, 16).darker(2)
-                }
-                return d3.rgb(38, 166, 16)
-              }
-              //return inventory_level > 0.5? d3.rgb(16,52,166) : d3.rgb(16,52,166).darker(2)
-            })(),
-            stroke: true,
-            weight : 1,
-            opacity : 1,
-            fillOpacity : 0.8
-          };
-          L.circleMarker([station.lat, station.lon], path_options).addTo(map_3);
-        });
-        */
+<div id="vizcontainer">
+<svg style="width:500px;height:500px;border:1px lightgray solid;" />
+</div>
+  <footer>
+<script>
+  function arcDiagram() {
+    queue()
+    .defer(d3.csv, "nodelist.csv")
+    .defer(d3.csv, "edgelist.csv")
+    .await(function(error, file1, file2) { createArcDiagram(file1, file2); });
+    function createArcDiagram(nodes,edges) {
       
-        // STEP 3: Create Chord Layout
-        //var chordLayout = d3.chord()
-        /*
-        var height2=1000, width2=2050;
-        var svg2 = d3.select("body").append("svg").attr("width",width2).attr("height",height2);
-        var chLeft = viz.ch()
-          .data(od_matrix)
-          .fill(function(d){ return colorMatrix[d];});
-        svg2.append("g").attr("transform", "translate(300,250)").call(chLeft);  
-        d3.select(self.frameElement).style("height", height2+"px").style("width", width2+"px");
-        */
-        
-        var chordLayout = d3.layout.chord()
-          .matrix(od_matrix)
-          .padding(0.01)
-          .sortGroups(d3.descending); // You can also pass custom sorting functions that compare two objects like function(a,b){...}
-          // About d3.layout.chord():
-        // d3.layout.chord() is a D3 layout object. Read about D3 Layouts here: https://d3indepth.com/layouts/ and about Chord Layout here: https://d3-wiki.readthedocs.io/zh_CN/master/Chord-Layout/
-        // Once the Chord Layout is being assigned an OD matrix ( d3.layout.chord().matrix(od_matrix) ), it can return groups and chords arrays as follows:
-        // function chordLayout.groups() returns the groups
-        // function chordLayout.chords() returns the chords
+      expEdges = edges;
+      expNodes = nodes;
+      
+      var nodeHash = {};
+      for (x in nodes) {
+        nodeHash[nodes[x].id] = nodes[x];
+        nodes[x].x = parseInt(x) * 50;
+      }
+      for (x in edges) {
+        edges[x].weight = parseInt(edges[x].weight);
+        edges[x].source = nodeHash[edges[x].source];
+        edges[x].target = nodeHash[edges[x].target];
+      }
+      
+      linkScale = d3.scale.linear().domain(d3.extent(edges, function (d) {return d.weight})).range([5,10])
+      
+      var arcG = d3.select("svg").append("g").attr("id", "arcG").attr("transform", "translate(50,250)");
 
+      arcG.selectAll("path")
+      .data(edges)
+      .enter()
+      .append("path")
+      .style("stroke", "none")
+      .style("opacity", .25)
+      .style("fill", "black")
+      .attr("d", shapedEdge)
+      .on("mouseover", edgeOver)
+      
+      arcG.selectAll("circle")
+      .data(nodes)
+      .enter()
+      .append("circle")
+      .attr("r", 10)
+      .style("fill", "lightgray")
+      .style("stroke", "black")
+      .style("stroke-width", "1px")
+      .attr("cx", function (d) {return d.x})
+      .on("mouseover", nodeOver)
 
-        // STEP 4: Create SVG Shape Generators for arcs and chords
-        var arc = d3.svg.arc()
-            .innerRadius(innerRadius)
-            .outerRadius(outerRadius);
-        // About d3.svg.arc():
-        // d3.svg.arc() is an SVG Shape Generator. Read more about SVG Shape Generators here: https://d3indepth.com/shapes/
-        // d3.svg.arc() takes a group object as an input and returns its path
-        // To define an arc SVG Shape Generator you first need to define the inner and outer radii
-        // function chordLayout.groups() returns an array with all groups (e.g. arc sectors)
-        // each group object contains a start angle, an end angle, an index number, and a value.
-        // for example, arc(chordLayout.groups()[2]) returns the path of the third group
-
-
-        var chord = d3.svg.chord()
-          .radius(innerRadius - 5);
-        // About d3.svg.chord():
-        // d3.svg.chord() is also an SVG Shape Generator. It takes a chord object as an input and returns its path
-        // To define a chord SVG Shape Generator you first need to define the radious
-        // chordLayout.chords() returns an array with all chords
-        // each chord object consists of a source and a target, and each of the source and target is a segment of a group with its own start angle and end angle
-        // for example, chord(chordLayout.chords()[12]) returns the path of the 13th chord
-
-
-        // STEP 5: Create the SVG and an empty group "g" to contain the Arc and Chord Shapes that you will be generating
-        var svgGroup = d3.select("#chordGraph").append("svg")
-          .attr("width", 800)
-          .attr("height", 800)
-          .append("g")
-          .attr("transform", "translate(" + (xPos + outerRadius) + "," + (yPos + outerRadius) + ")");
-        // Create an SVG element in the body of the html page, and define its width and height
-        // Then, append an empty "group" (g) inside it, and determine its X,Y origin
-        // You need this g element in order to start embedding paths inside it and consider them as a single object.
-
-        
-        // STEP 6: Draw Arcs/Groups
-        svgGroup.selectAll(".group")
-          .data(chordLayout.groups())
-          .enter()
-          .append("g")
-          .attr("class", "group")
-          .append("path")
-          .attr("id", function(d, i) { return "group" + i; })
-          .style("fill", function(d) { return color(d.index); })
-          .style("stroke", d3.rgb(100,0,0))
-          .style("stroke-width", 0.5)
-          .attr("d", function(d) { return arc(d)})
-          .on("hover", function (d,i) {
-          })
-          .on("click", function (d,i) {
-          });
-
-        // STEP 7: Draw Chords
-        svgGroup.selectAll(".chord")
-          .data(chordLayout.chords())
-          .enter()
-          .append("path")
-          .attr("class", "chord")
-          .style("fill", d3.rgb(180,100,100))
-          .style("stroke", d3.rgb(180,100,100).darker(3))
-          .style("opacity", 0.05)
-          .attr("d", function(d) { return chord(d)} )
-          .on("hover", function (d) {
-          })
-          .on("click", function (d,i) {
-          });
-          
-          
-          //redraw(create_svg_group("chordGraph", 800,800,xPos,yPos),od_matrix);
-        // STEP 8: Change attributes of Chords (example)
-        // svgGroup.selectAll(".chord")
-          // .style("opacity", function(d){
-          // 	if(d.source.index==2 || d.target.index==2)
-          // 		return 1;
-          // 	else
-          // 		return 0.1
-          // });
-
-        
-
-        /********************/
-        /********************/
-        /***** FUNCTIONS ****/
-        /********************/
-        /********************/
-
-
-        function getStationsFromTrips(trips){
-          var stations = [];
-          var indexByStationName = d3.map();
-          var StationNameByIndex = d3.map();
-          var n = 0;
-          trips.forEach(function(trip) {
-            
-            if (!indexByStationName.has(trip.start_station)) {
-              stations.push({
-                station_id : trip.start_station,
-                name : trip.start_station_name,
-                lat : trip.start_station_lat,
-                lng : trip.start_station_lng,
-              });
-              StationNameByIndex.set(n, trip.start_station);
-              indexByStationName.set(trip.start_station, n++);
-            }
-            if (!indexByStationName.has(trip.end_station)) {
-              stations.push({
-                station_id : trip.end_station,
-                name : trip.end_station_name,
-                lat : trip.end_station_lat,
-                lng : trip.end_station_lng,
-              });
-              StationNameByIndex.set(n, trip.end_station);
-              indexByStationName.set(trip.end_station, n++);
-            }
-
-          });
-          number_of_stations = n;
-          return stations;
-        }
-
-        function createMatrix(tripData, stationData){
-          var indexByNameTrip = d3.map();
-          var nameByIndexTrip = d3.map();
-          var n = 0;
-          tripData.forEach(function(d) {
-            if (!indexByNameTrip.has(d.start_station)) {
-              nameByIndexTrip.set(n, d.start_station);
-              indexByNameTrip.set(d.start_station, n++);
-            }
-
-          });
-
-          var indexByNameStation = d3.map();
-          var nameByIndexStation = d3.map();
-          var j = 0;
-          stationData.forEach(function(d) {
-            if (!indexByNameStation.has(d.name)) {
-              nameByIndexStation.set(j, d.name);
-              indexByNameStation.set(d.name, j++);
-            }
-          });
-
-
-          //Create the OD matrix
-          var od_matrix = [];
-          var aRandom = 0;
-          tripData.forEach(function(d) {
-            var  startStationIndex = indexByNameTrip.get(d.start_station);
-            var  endStationIndex = indexByNameTrip.get(d.end_station);
-            if (!od_matrix[startStationIndex]) {
-              od_matrix[startStationIndex] = [];
-              colorMatrix[startStationIndex] = getRandomColor();
-              for (var i = 0; i < n; i++) {
-                od_matrix[startStationIndex][i] = 0;
-                
-              }
-
-            }
-            od_matrix[startStationIndex][endStationIndex]++;;
-            number_of_trips = number_of_trips+1;
-          });
-
-          for(var x = 0; x<od_matrix.length; x++) {
-            for(var y = 0; y<od_matrix[x].length; y++) {
-              if(od_matrix[x][y]>1)
-                name_matrix.push([nameByIndexStation.get(x), nameByIndexStation.get(y), od_matrix[x][y]]);
-            }
-          }
-          return od_matrix;
-        }
-
-        // From: https://stackoverflow.com/a/1484514 
-        function getRandomColor() {
-            var letters = '0123456789ABCDEF';
-            var color = '#';
-            for (var i = 0; i < 6; i++) {
-              color += letters[Math.floor(Math.random() * 16)];
-            }
-            return color;
-          }
-
-          
-
-        /*
-        function create_svg_group(div_id, svg_width, svg_height, svg_xPos, svg_yPos){
-            var svg_group = d3.select("#"+div_id).append("svg")
-              .attr("width", svg_width)
-              .attr("height", svg_height)
-              .append("g")
-              .attr("transform", "translate(" + svg_xPos + "," + svg_yPos + ")");
-            return svg_group;
-          }
-        function redraw(svg_group, od_matrix){
-            // Get or Generate data
-            //var nStations = get_nStations();
-           // var nTrips = get_nTrips(nStations);
-            //od_matrix = createMatrix(trips, stationData);
-            // Apply layout to data
-            chordLayout
-              .matrix(od_matrix)
-              .padding(0.01)
-              .sortGroups(d3.descending);
-            // Update()
-            update(svg_group, chordLayout.groups(), chordLayout.chords());
-          }
-        function update(svg_group, arc_data, chord_data){
-          // Arcs
-          // Step 1: Bind data to arcs
-          var arcs = svg_group
-          .selectAll(".arc")
-          .data(arc_data);
-          // Step 2: Append any new arcs if needed
-          arcs
-          .enter()
-          .append("path")
-          .attr("class", "arc");
-          // Step 3: Remove any excessive arcs if needed
-          arcs
-          .exit()
-          .remove();
-          // Step 4: Modify the arcs based on their bound data
-          arcs
-          .attr("id", function(d, i) { return "arc_" + i; })
-          .style("fill", function(d) { return color(d.index); })
-          .style("stroke", d3.rgb(0,0,0))
-          .style("stroke-width", 1)
-          .attr("d", function(d) { return arc(d)});
-          // Chords
-          // STEP 1: Bind data to chords
-          var chords = svg_group
-          .selectAll(".chord")
-          .data(chord_data);
-          // Step 2: Append any new chords if needed
-          chords
-          .enter()
-          .append("path")
-          .attr("class", "chord");
-          // Step 3: Remove any excessive chorsa if needed
-          chords
-          .exit()
-          .remove();
-          // Step 4: Modify the chords based on their bound data
-          chords
-          .attr("id", function(d, i) { return "chord_" + i; })
-          .style("fill", d3.rgb(180,180,180))
-          .style("stroke", d3.rgb(180,180,180).darker(3))
-          .style("opacity", 0.5)
-          .attr("d", function(d) { return chord(d)} )
-          //TickGroups
-          // Step 1: Bind data to tick groups
-          var tickGroups = svg_group
-          .selectAll(".tickGroups")
-          .data(arc_data);
-          // Step 2: Append any new tick groups if needed
-          tickGroups
-          .enter()
-          .append("g")
-          .attr("class", "tickGroups");
-          // Step 3: Remove any excessive tick groups if needed
-          tickGroups
-          .exit()
-          .remove();
-          //Ticks
-          // Step 1: Bind data
-          var ticks = tickGroups
-          .selectAll("g")
-          .data(groupTicks);
-          // Step 2: Append any new elements if needed
-          // SubStep 2.1: Append any new ticks if needed
-          var tick = ticks
-          .enter()
-          .append("g");
-          // SubStep 2.2: Within each tick append any new lines if needed
-          tick
-          .append("line")
-          .attr("x1", 1)
-          .attr("y1", 0)
-          .attr("x2", 10)
-          .attr("y2", 0)
-          .style("stroke", "#000");
-          // SubStep 2.3: Within each tick append any new text if needed
-          tick
-          .append("text")
-          .attr("x", 15)
-          .attr("font-size", "11px")
-          .attr("dy", ".35em");
-          // Step 3: Remove any excessive elements if needed
-          ticks
-          .exit()
-          .remove();
-          // Step 4: Modify elements based on their bound data
-          ticks
-          .attr("transform", function(d) {
-            return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")"
-            + "translate(" + (outerRadius + 10) + ",0)";
-          });
-          ticks
-          .selectAll("text")
-          .attr("transform", function(d) { return d.angle > Math.PI ? "rotate(180)translate(-30)" : null; })
-          .style("text-anchor", function(d) { return d.angle > Math.PI ? "end" : null; })
-          .text(function(d) { return d.label; });
-          }
-          */
-
-      });
-      });
-    });
-  
-  </script>
-
-<div id="aTable" class="twelve columns"></div>
+      function shapedEdge(d,i) {
+        var draw = d3.svg.line().interpolate("basis");
+        var sw = linkScale(d.weight)
+        var midX = (d.source.x + d.target.x) / 2;
+        var midY = d.source.x - d.target.x - sw;
+        var midY2 = d.source.x - d.target.x + sw;
+        return draw([[d.source.x,0],[midX,midY],[d.target.x + (sw*1.5),0],[d.target.x - (sw*1.5),0],[midX,midY2],[d.source.x,0]])
+      }
+      
+      function nodeOver(d,i) {
+        d3.selectAll("circle").style("fill", function (p) {return p == d ? "red" : "lightgray"})
+        d3.selectAll("path").style("fill", function (p) {return p.source == d || p.target == d ? "red" : "black"})
+      }
+      
+      function edgeOver(d) {
+        d3.selectAll("path").style("fill", function(p) {return p == d ? "red" : "black"})
+        d3.selectAll("circle").style("fill", function(p) {return p == d.source ? "blue" : p == d.target ? "green" : "lightgray"})}
+      
+    }
+  }
 </body>
 </html>
