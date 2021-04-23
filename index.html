@@ -4,7 +4,6 @@
 <style>
 h4 {
   color:white;
-  font-weight: bold;
   }
 </style>
   
@@ -12,7 +11,7 @@ h4 {
   
   <!-- Basic Page Needs–– -->
   <meta charset="utf-8">
-  <title>MoD Assignment 1</title>
+  <title>MoD Assignment 2</title>
   <meta name="description" content="">
   <meta name="author" content="">
 
@@ -30,258 +29,821 @@ h4 {
   <script src='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js'></script>
   <link href='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css' rel='stylesheet' />
   <style>
-  #map_1,#map_2,#map_3 {
+  #map_1,#map_2, #map_2_5, #map_3 {
     height: 500px;
   }
     hr.line1{
-        border: solid rgba(50, 205, 50, 0.596); 
+        border: solid rgb(255, 255, 255); 
               }
-    
+  svg text{
+    fill:white;
+    text-anchor:middle;
+   font-size:18px;
+  }
+  svg .values text{
+    pointer-events:none;
+    stroke-width: 0.5px;
+  }
+  .groups:hover{
+    cursor:pointer;
+    font-weight:bold;
+  }  
     
     
  
   </style>
 
   <!-- D3 -->
-  <script src="https://d3js.org/d3.v4.min.js"></script>
-
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+  <script src="http://vizjs.org/viz.v1.1.0.min.js"></script>
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="images/favicon.png">
 
 </head>
-<body style="background-color:rgba(16, 52, 166, .80)">
+<body style="background-color:rgba(0, 128, 255, .95)">
 
   <div class="container one-bottom" style="margin-top: 50px">
     <div class="ten columns">
-      <h2 style="color:white">Charlotte Joy Rides: A Visual Representation</h2>
+      <h2 style="color:white">Hubway to Blue Bikes</h2>
+      <h5 style="color:white">What was the impact of fleet and station expansion, new partnership, and re-branding on Boston's bike-share system?</h5>
       <p style="color:white">
         ARCH 6306/6050, DSBA 6010, ITIS 8010/6010: Wednesdays 6pm-8:30pm, Taught Online
         <br>
         Anibal Robles | Brian Ferrell | Coral Rembert | Ryan Carriere |  
-        Charlottejoyrides | https://charlotte.bcycle.com
+        Boston Blue Bikes | https://www.bluebikes.com/
       </p>
       <hr class="line1" width="100%">
     </div>
     <div class="two columns">
-      <a href="https://charlottejoyrides.com/" target="blank"><img class="scale-with-grid"
-        src="https://www.bcycle.com/images/librariesprovider44/default-album/joyrides_logo_white_and_green.png" height = "150" width = "300" style="float:right;"></a>
-    </div>
-    <div class="row">
-      <img class="four columns scale-with-grid quarter-bottom-rel" src="https://charlotteaxios-charlotteagenda.netdna-ssl.com/wp-content/uploads/2015/08/IMG_6486.jpg">
-      <img class="four columns scale-with-grid quarter-bottom-rel" src="https://bikeshare.cc/wp-content/uploads/2018/01/Charlotte_Bcycle_1.jpg">
-      <img class="four columns scale-with-grid quarter-bottom-rel" src="https://charlotteaxios-charlotteagenda.netdna-ssl.com/wp-content/uploads/2015/08/IMG_6489.jpg">
+      <a href="https://www.bluebikes.com/" target="blank"><img class="scale-with-grid"
+        src="img/bluebikes.jpg" height = "150" width = "300" style="float:right;"></a>
     </div>
     <div class="twelve columns">
       <h3 style="color:white">Introduction</h3>
-      <h5 style="color:white">Bike sharing, an up-and-coming transportation style in various cities and urban areas, gives passengers easy access to move around town. 
-      In Charlotte, North Carolina, B-Cycle - a docked Bike Sharing MoD system - provides 343 bikes and 34 stations throughout the Queen City for easy transportation. 
-      Charlotte B-cycle launched in 2012 with only 200 bikes and 20 stations, but through various sponsorships, grants, and support over the last eight years, the company has grown to its current size. 
-      In addition to providing its services, Charlotte B-cycle also works to support the local community. 
-      When you see one of their bikes whizzing around town, you'll  notice each bike sports a piece of art created by a local artist.
-      <br> Below we have different map plots that display where our data is, where the docks are located, and accumulation trends that occur. </h5>
+    </div>
+    <div class="row">
+      <img class="four columns scale-with-grid quarter-bottom-rel" src="img/hubway station.jpg">
+      <img class="four columns scale-with-grid quarter-bottom-rel" src="img/hubway.jpg">
+      <img class="four columns scale-with-grid quarter-bottom-rel" src="img/people on hubway.jpg">
+    </div>
+    <div class="twelve columns">
+      <h4 style="color:white">Hubway</h4>
+      <p style="color:white">The Bostonbikes program was founded in 2007, and the Metropolitan Area Planning Council joined due to the need for the service to span town boundaries. Brookline, Cambridge, and Somerville joined Boston to bring the service to their communities as well. Hubway began as a bike share platform that was launched in 2011 with 600 bicycles and 60 stations. Brookline, Cambridge, and Somerville launched stations in 2012, and Hubway rides continued to grow exponentially. By 2014, Hubway had around 10,00 annual memberships and had sold 79,000 Day Passes, 9,000 3-Day Passes, and 2,000 Monthly Memberships in the previous year. From 2015 to 2016, Hubway expanded to more neighborhoods in Boston and Cambridge. Before Hubway’s rebranding to Bluebikes, the system had expanded to include 185 stations with 600 bicycles.
+</p>
+    </div>
+  </div>
+  <div class="container one-bottom" >
+    <div class="twelve columns">
+      <h3 style="color:white">Expansion and Transformation</h3>
+      <h4 style="color:white">How?</h4>
+      <p style="color:white">In 2017, Blue Cross Blue Shield of Massachusetts sponsored the bike share system and changed the name to BlueBikes. The expansion was set to bring the number of bikes to 3000 and increase the number of stations by 100.</p>
+      <p style="color:white">Our Research is focusing on the transition from Hubway to BlueBikes and the expansion of the system into the surrounding areas of Boston. When the service was expanded, more residential areas gained access to stations, which provided more residents access to the service as a first-mile solution in their commute. We are analyzing trip data from 2017 before the expansion/ transition to BlueBikes and comparing data from 2019 after the expansion.This project investigates the strategies that the service is using in its expansion and the characteristics of the neighborhoods that the expansion affects.</p>
+      <h5 style="color:white">Feature Changes</h5>
+      <h6 style="color:white"> Fig. 1 </h6>
+      <img class="container one-bottom" src="img/hubway to bluebikes diagram.svg" style="float:center;">
     </div>
   </div>
 
   <div class="container one-bottom" >
     <div class="twelve columns">
-      <h3 style="color:white">Location<h3>
-      <h4 > Fig. 1 </h4>                   
-      <h5 style="color:white">
-        The location of this data is Charlotte, NC.
-      </h5>
+      <h5 style="color:white">Hubway Stations<h5>
+      <h6 style="color:white"> Fig. 2 </h6>                   
+      <p style="color:white">
+        Hubway station locations in the Boston, Cambridge, Brookline, and Somerville areas as of 2017. Pre-expansion.
+      </p>
                          
     </div>
   </div>
 
-  <div id="map_1" class="one-bottom"></div>
-
-
-  <div class="container one-bottom" >
-    <div class="twelve columns">
-      <h3 style="color:white">Station Locations</h3>
-      <h4 style="color:white">Fig. 2 </h4>                         
-      <h5 style="color:white">
-        B-Cycle locations of stations in Charlotte, NC with their station_ID, street address, number of bikes available, and number of docks available.
-      </h5>
-    </div>
-  </div>
-
+  <!--<div id="map_1" class="one-bottom"></div>-->
   <div id="map_2" class="one-bottom"></div>
 
+  <div class="container one-bottom" >
+    <div class="twelve columns">
+      <h5 style="color:white">Areas of Expansion</h5>
+      <h6 style="color:white">Fig. 3 </h6>                         
+      <p style="color:white">
+        Expanded station locations in the Everett, Mattapan, Roslindale, and Dorchester areas.
+      </p>
+    </div>
+  </div>
+
+<!--  <div id="map_3" class="one-bottom"></div>-->
+<div id="map_2_5" class="one-bottom"></div>
 
   <div class="container one-bottom" >
     <div class="twelve columns">
-      <h3 style="color:white">Station Accumulation Levels</h3>
-      <h4 style="color:white">Fig. 3 </h4>                         
-      <h5 style="color:white">
-        Accumulation levels of all B-Cycle stations located in Charlotte, NC. Represents total station availability. 
-      </h5>
-      <h7 style="color: white;">
-        (Blue are electric bikes, Green are classic bikes, and Orange are smart bikes).
-      </h7>
+      <h5 style="color:white">Blue Bike Stations</h5>
+      <h6 style="color:white">Fig. 4 </h6>                         
+      <p style="color:white">
+        Current Blue Bike station locations in the Boston, Cambridge, Brookline, Somerville, Everett, Mattapan, Roslindale, and Dorchester areas. Post-expansion.
+      </p>
     </div>
   </div>
+
 
 
   <div id="map_3" class="one-bottom"></div>
                                                                      
-
-
   <div class="container one-bottom" >
-    <h3 style="color:white">Below are maps that show relationships between B-Cycle station data and other attributes within the Charlotte area.</h3>
+    <div class="twelve columns">
+      <h4 style="color:white">Why?</h4>
+      <p style="color:white">In 2019, Blue Cross Blue Shield of Massachusetts joined Hubway and Boston’s bike sharing system was rebranded to BlueBikes. BlueBikes remains a public transportation system that is owned by the municipalities of Boston, Cambridge, Brookline, and Somerville and operated by Motivate. The partnership allowed for the service to be expanded to more neighborhoods within these municipalities. Through this partnership, Blue Cross Blue Shield promotes healthier living and increasing equity and accessibility to active transportation. Through investment into infrastructure and MoD systems such as BlueBikes, Boston and it’s surrounding municipalities have integrated active forms of transportation with their public systems. 
+ </p>
+    </div>  
+    <div class="twelve columns">
+      <h5 style="color:white">Areas Affected</h5>
+      <h6 style="color:white">Fig. 5</h6>
+      <img class="container one-bottom" src="img/Affected Areas 3.jpg" style="float:center;">
+      <h6 style="color:white">Fig. 6</h6>
+      <img class="container one-bottom" src="img/station boundaries.jpg" style="float:center;">
+      <h5 style="color:white">Area Attributes</h5>
+      <h6 style="color:white">Fig. 7</h6>
+      <img class="container one-bottom" src="img/Bike lanes 111.jpg" style="float:center;">
+    </div>
   </div>
 
-
-        
-   
   <div class="container one-bottom" >
-      <h3 style="color:white">Zoning Information </h3>
-      <h4 style="color:white">Fig. 4 </h4>                             
-      <h5 style="color:white">This map shows the zoning information at any given B-Cycle station location. </h5>                                                    
-      <img class="container one-bottom" src="img/diagram 2-01.jpg">
-      <h3 style="color:white">CATS Bus Stop Locations </h3>
-      <h4 style="color:white">Fig. 5 </h4>                                                            
-      <h5 style="color:white">This map shows the relationship between the B-Cycle station locations and the CATS bus stop locations in Charlotte. </h5>                             
-      <img class="container one-bottom" src="img/1-01.jpg">                                                           
-      <h3 style="color:white">Bike Lane Locations </h3>
-      <h4 style="color:white">Fig. 6 </h4>                                                    
-      <h5 style="color:white">This map shows the relationship between current bike lane locations and B-Cycle station locations in Charlotte. </h5>                                                            
-      <img class="container one-bottom" src="img/diagram 3-01.jpg">
+    <div class="twelve columns">
+      <h3 style="color:white">Impact</h3>
+    </div>
+    <div class="row">
+      <img class="four columns scale-with-grid quarter-bottom-rel" src="img/blue bikes station.jfif">
+      <img class="four columns scale-with-grid quarter-bottom-rel" src="img/peoplle on blue bikes.jpg">
+      <img class="four columns scale-with-grid quarter-bottom-rel" src="img/blue bikes key.jpg">
+    </div>
+    <div class="twelve columns">
+      <h4 style="color:white">Blue Bikes Today</h4>
+      <p style="color:white">Boston Blue Bike is a conventional bike sharing system in which riders unlock the vehicles through an app at stations - otherwise known as kiosks - and can return the bikes at any station when the trip is done. The Blue Bikes stations serve every line of the T, the commuter rail and ferry, and more than 60 bus routes to accomodate multi-modal trips. Five municipalities own Blue Bikes and San Fransisco based Lyft operates the bike share while Blue Cross Blue Shield of Massachusetts has a sponsorship.</p>
+      <p style="color:white">Blue Bikes now has +3,500 bikes and 325 stations.</p>
     </div>
   </div>
   <div class="container one-bottom" >
-    <h2 style="color:white">Conclusion</h2>
-    <h5 style="color:white">Our maps express a story. In Fig. 3, most of the bike stations are located inside interstate 77 and 485 in the inner city accumulating the most usage combined, while there are less stations outside the city. We believe people in the inner city use these bikes to commute to and from work.
-      The stations south of Charlotte are in South End, a highly commercial area, which means people commute to and from entertainment and shopping.
-      In addition, in Fig. 5, the number of bus stations compared to bike stations are exponentially larger showing a greater interest in buses versus bikes. As you can see in the Fig. 6, there is not that many bike lanes in the city; therefore, most bikes will either be on the sidewalk or a part of traffic creating potiential self risk.</h5>
-  </div>
-    <div class="container one-bottom" >
-    <h5 style="color:white">Figure 4- The B-Cycle dock locations are located beside multiple building types, but the zoning data indicates that there are not many in the areas of center city with the most residential buildings. The multi-family and condo/townhome building types shown in purple do not have many bicycle docks within a few blocks,  while government and commercial buildings have the highest number of docks adjacent to them. B-Cycle seem to have located docks at high-density workplaces and commercial buildings to allow for commuters to use the bikes as a last-mile solution. Charlotte has several dockless bike-sharing systems in place, so these are not the only available bikes to commuters.</h5>
-    
-    <h5 style="color:white">Figure 5- Figure 5 shows the relationship between CATS bus stops and B-Cycle docks in center city. Almost all of the docks have bus stops within a block of them, which allows commuters to easily access the bike sharing service for shorter trips when they arrive in Uptown via bus. Customers pay an access fee for 24 hours and can check out bikes for up to 30 minutes without paying added fees. This model works for commuters who are making multiple short trips that do not require the use of the bus system.</h5>
-   
-    <h5 style="color:white">Figure 6- This map shows the relationship between current bike lane locations and B-Cycle station locations in Charlotte. Many of the roads in Charlotte do not have bike lanes, so most of the bike traffic will share the roads or sidewalks. As the use of MoD systems increases, car traffic in the city center should decrease, allowing for safer travel via bike, but the lack of dedicated lanes could deter people from using bicycles due to safety concerns.</h5>
+    <div class="twelve columns">
+      <h5 style="color:white">Membership Growth</h5>
+      <img class="container one-bottom" src="img/annualmembers.JPG" style="float:center;">
+      <h5 style="color:white">Ridership Growth</h5>
+      <img class="container one-bottom" src="img/casualtrips.JPG" style="float:center;">
+      <h5 style="color:white">Usage of BlueBikes</h5>
+      <img class="container one-bottom" src="img/stackedbar.JPG" style="float:center;">
     </div>
-    
+  </div>
+
+   
   <div class="container one-bottom" >
-    <h2 style="color:white">Discussion</h2>
-    <h4 style="color:white">Based off all given data, these are some suggestions we have to improve the relationships between stations and other attributes in Charlotte.</h4>
-    <h5 style="color:white">1. Expand B-Cycle station locations to more residential areas both within the city and outside of the city to give local commuters more mobility options.</h5>  
-    <h5 style="color:white">2. Coordinate future expansion of CATS bus stop locations to all B-Cycle station locations, giving those using the CATS bus system more mobility options going to and from the bus stops.</h5> 
-    <h5 style="color:white">3. Expand bike lane infrastructure within the city to reach more B-Cycle station locations.</h5> 
-    <h5 style="color:white">4. Coordinate future expansion of B-Cycle station locations with stop locations of other mobility services including the LYNX BlueLine and future options like the LYNX SilverLine.</h5> 
+    <div class="twelve columns" >
+      <h3 style="color:white">Conclusion</h3>
+      <p style="color:white">Boston’s transition from Hubway to BlueBikes has brought expanded transportation options to multiple new neighborhoods in the surrounding areas. When Hubway began the system, the goal was to provide a mostly short-term service to serve tourists and visitors to Boston. With the subsequent expansions, the service expanded into more residential areas to give local citizens more access to the service as a long term membership, providing options like income eligible membership pricing. This resulted in higher levels of long-term membership among residents. Overall, the system saw increases in total trips vs miles traveled and the total number of trips per year.
+</p>
+    </div>
   </div>                                 
 
   <div class="container one-bottom" >
-    <h2 style="color:white">Team & Contributions</h2>
-    <h3 style="color:white">Ryan Carriere</h3>
-    <h5 style="color:white">Ryan Carriere contributed to creating the formal heading section of the page with, introduction, popups/explanation in figure 2, page orientation, and conclusion. </h5>
-    <h3 style="color:white">Coral Rembert</h3>
-    <h5 style="color:white">Coral Rembert contributed to creating the Github page, finding online data, map style and data representation style (for Fig. 1-3), page organization, adding descriptions to maps, and discussion.</h5>
-    <h3 style="color:white">Anibal Robles</h3>
-    <h5 style="color:white">Anibal Robles contributed to merging the data files and finding how to make it work in Mapbox, helped in map representation, and bug fixes.</h5>
-    <h3 style="color:white">Brian Ferrell</h3>
-    <h5 style="color:white">Brian Ferrell contributed to creating diagrams with Mecklenburg county and B-Cycle data using GIS programs, webpage layout, research and conclusion. </h5>
+    <h4 style="color:white">Team & Contributions</h4>
+    <h5 style="color:white">Ryan Carriere</h5>
+    <p style="color:white">Ryan Carriere contributed to creating the graphs in the Blue Bikes today section. Also helped with coding.</p>
+    <h5 style="color:white">Coral Rembert</h5>
+    <p style="color:white">Coral Rembert contributed to creating the Github page, finding data and figuring out what data to represent, research question, page layout and narrative organization, impact section verbage, and adding pictures.</p>
+    <h5 style="color:white">Anibal Robles</h5>
+    <p style="color:white">Anibal Robles contributed to creating the interactive graphs, implementing the multiple csv files for getting data, and implementing the chord graph.</p>
+    <h5 style="color:white">Brian Ferrell</h5>
+    <p style="color:white">Brian Ferrell contributed to creating diagrams with Boston and BlueBikes data using GIS programs, webpage layout, research, presentation, and introduction. </p>
   </div>
-
+  
+  <div class="twelve columns">
+    <h4 style="color:white">Chord Graph for 2017 trip data.</h4>
+  </div>
+  <div id="chordGraph" class="one-bottom"></div>
+  <p id="demo"></p>
 
 
   <script>
 
-  L.mapbox.accessToken = 'pk.eyJ1IjoiZGltcCIsImEiOiJkRnlra3RjIn0.E9CTYzNUEx0yb3dcfV4SiA';
+    // STEP 1: Setup
 
-  var map_1 = L.mapbox.map('map_1')
-  .setView([35.22732,-80.83827], 10)
-  .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/light-v10'));
-  map_1
-  .scrollWheelZoom.disable();
+    var margin = 50;
+    var width = 800;
 
-                                   
-  var path_o = {
-        radius :  60,
-        color : d3.rgb(16,52,166).brighter(),
-        stroke: true,
-        weight : 1,
-        fill : true,
-        Color: d3.rgb(16,52,166).brighter(),
-      };
-                                   
-  L.circleMarker([35.22732,-80.8382], path_o).addTo(map_1)
-                                   
-                                   
-  d3.json("mergedFiles.json", function(json) {
-    console.log(json);
+    var xPos = margin;
+    var yPos = margin;
 
-    var map_2 = L.mapbox.map('map_2')
-    .setView([35.22732,-80.83827], 12)
+    var thickness = 30;
+    var diameter = width - 2*margin;
+    var outerRadius = diameter / 2;
+    var innerRadius = outerRadius - thickness;
+
+    L.mapbox.accessToken = 'pk.eyJ1IjoiZGltcCIsImEiOiJkRnlra3RjIn0.E9CTYzNUEx0yb3dcfV4SiA';
+
+    /*var map_1 = L.mapbox.map('map_1')
+    .setView([42.3601,-71.0589], 12)
     .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/light-v10'));
-    map_2
+    map_1
     .scrollWheelZoom.disable();
-                            
+                                    
+    var path_o = {
+          radius :  60,
+          color : d3.rgb(16,52,166).brighter(),
+          stroke: true,
+          weight : 1,
+          fill : true,
+          Color: d3.rgb(16,52,166).brighter(),
+        };
+                                    
+    L.circleMarker([42.3601,-71.0589], path_o).addTo(map_1)
+  */                            
+                                    
+    d3.csv("201706-hubway-tripdata.csv", function(tripData) {
+      d3.csv("201906-bluebikes-tripdata.csv", function(tripData2019) {
+      d3.csv("Hubway_Stations_as_of_July_2017.csv", function(station_2017Data){
+        //console.log(tripData);
+        
+        var name_matrix = [];
+        var number_of_trips = 0;
+        var number_of_stations = 0;
+        var colorMatrix = {};
+
+        var stations = station_2017Data.map(function(aData)
+        {
+          var station = {};
+
+          station.a_station = +aData["Number"];
+          station.station_name = aData["Name"];
+          station.station_lat = +aData["Latitude"];
+          station.station_lng = +aData["Longitude"];
+          station.district = aData["District"];
+          station.public = aData["Public"];
+          station.total_docks = +aData["Total docks"];
+          
+          return station;
+        });
+
+        var trips = tripData.map(function(aData)
+        {
+          var trip = {};
+
+          trip.starttime = d3.time.format("%Y-%m-%d %H:%M:%S").parse(aData["starttime"].slice(0,-5));
+          trip.stoptime = d3.time.format("%Y-%m-%d %H:%M:%S").parse(aData["stoptime"].slice(0,-5));
+          trip.duration = +aData["tripduration"];
+          trip.start_station = +aData["start station id"];
+          trip.end_station = +aData["end station id"];
+          trip.start_station_name = aData["start station name"];
+          trip.end_station_name = aData["end station name"];
+          trip.start_station_lat = +aData["start station latitude"];
+          trip.end_station_lat = +aData["end station latitude"];
+          trip.start_station_lng = +aData["start station longitude"];
+          trip.end_station_lng = +aData["end station longitude"];
+          trip.bikeid = +aData["bikeid"];
+          trip.usertype = aData["usertype"];
+          
+          return trip;
+        });
+
+        var trips2019 = tripData2019.map(function(aData)
+        {
+          var trip = {};
+
+          trip.starttime = d3.time.format("%Y-%m-%d %H:%M:%S").parse(aData["starttime"].slice(0,-5));
+          trip.stoptime = d3.time.format("%Y-%m-%d %H:%M:%S").parse(aData["stoptime"].slice(0,-5));
+          trip.duration = +aData["tripduration"];
+          trip.start_station = +aData["start station id"];
+          trip.end_station = +aData["end station id"];
+          trip.start_station_name = aData["start station name"];
+          trip.end_station_name = aData["end station name"];
+          trip.start_station_lat = +aData["start station latitude"];
+          trip.end_station_lat = +aData["end station latitude"];
+          trip.start_station_lng = +aData["start station longitude"];
+          trip.end_station_lng = +aData["end station longitude"];
+          trip.bikeid = +aData["bikeid"];
+          trip.usertype = aData["usertype"];
+          
+          return trip;
+        });
+
+        stationData = getStationsFromTrips(trips);
+        stationData2019 = getStationsFromTrips(trips2019);
+          od_matrix = createMatrix(trips, stationData);
+
+        document.getElementById("demo").innerHTML = "NumStations: " + number_of_stations
+        + "<br>NumTrips: </br>" + number_of_trips;
+
+        var color = d3.scale.linear()
+          .domain([0, stationData.length])
+          .range([d3.rgb(136, 0, 255), d3.rgb(22, 0, 50)]);
+
+        var stationNameArray = [];
+
+        var map_2 = L.mapbox.map('map_2')
+        .setView([42.3601,-71.0589], 12)
+        .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/light-v10'));
+        map_2
+        .scrollWheelZoom.disable();
+
+        stations.forEach(function(station){
+
+          stationNameArray.push(station.station_name);
+
+          station.station_lat = +station.station_lat;
+          station.station_lng = +station.station_lng;
+          
+          var path_options = {};
+          var isStart = "";
+
+          if(station.public == 1) {
+            path_options = {
+              radius :  6,
+              color : d3.rgb(16,52,166).brighter(),
+              stroke: true,
+              weight : 1,
+              fill : true,
+              Color: d3.rgb(16,52,166).brighter(),
+            };
+            isStart = "Public Station";
+          }
+          else{
+            path_options = {
+              radius :  6,
+              color : d3.rgb(166,16,16).brighter(),
+              stroke: true,
+              weight : 1,
+              fill : true,
+              Color: d3.rgb(166,16,16).darker(),
+            };
+            isStart = "Private Station";
+          }
+
+          
+          L.circleMarker([station.station_lat, station.station_lng], path_options).addTo(map_2).bindPopup(
+          "Station Name: " + station.station_name 
+          + "<br>District: </br>" + station.district 
+          + "<br>Total Docks: </br>" + station.total_docks 
+          + "<br>" + isStart + "</br>");
+        });
+        
+
+        var map_2_5 = L.mapbox.map('map_2_5')
+        .setView([42.3601,-71.0589], 12)
+        .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/light-v10'));
+        map_2_5
+        .scrollWheelZoom.disable();
+
+        stationData2019.forEach(function(station){
+
+          station.lat = +station.lat;
+          station.lng = +station.lng;
+           
+          var path_options = {};
+          var skip = false;
+
+          if(stationNameArray.includes(station.name))
+          {
+            skip = true;
+            path_options = {
+              radius :  6,
+              color : d3.rgb(166,16,16).brighter(),
+              stroke: true,
+              weight : 1,
+              fill : true,
+              Color: d3.rgb(166,16,16).darker(),
+            };
+          }
+          else
+          {
+            skip = false;
+            path_options = {
+              radius :  6,
+              color : d3.rgb(16,52,166).brighter(),
+              stroke: true,
+              weight : 1,
+              fill : true,
+              Color: d3.rgb(16,52,166).brighter(),
+            };
+          }
+          
+          if(!skip){
+          L.circleMarker([station.lat, station.lng], path_options).addTo(map_2_5).bindPopup(
+          "Station Name: " + station.name 
+          + "<br>Station ID: </br>" + station.station_id);
+          }
+        });
+
+
+
+        var map_3 = L.mapbox.map('map_3')
+        .setView([42.3601,-71.0589], 12)
+        .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/light-v10'));
+        map_3
+        .scrollWheelZoom.disable();
+
+        stationData2019.forEach(function(station){
+
+          station.lat = +station.lat;
+          station.lng = +station.lng;
+           
+          var path_options = {};
+
+          if(stationNameArray.includes(station.name))
+          {
+            path_options = {
+              radius :  6,
+              color : d3.rgb(166,16,16).brighter(),
+              stroke: true,
+              weight : 1,
+              fill : true,
+              Color: d3.rgb(166,16,16).darker(),
+            };
+          }
+          else
+          {
+            path_options = {
+              radius :  6,
+              color : d3.rgb(16,52,166).brighter(),
+              stroke: true,
+              weight : 1,
+              fill : true,
+              Color: d3.rgb(16,52,166).brighter(),
+            };
+          }
+          
+          L.circleMarker([station.lat, station.lng], path_options).addTo(map_3).bindPopup(
+          "Station Name: " + station.name 
+          + "<br>Station ID: </br>" + station.station_id);
+          
+        });
+        /*
+        var map_3 = L.mapbox.map('map_3')
+        .setView([35.22732,-80.83827], 12)
+        .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/light-v10'));
+        map_3
+        .scrollWheelZoom.disable();
+        stations.start_station_id.forEach(function(station){
+          station.start_station_latitude = +station.start_station_latitude;
+          station.start_station_longitude = +station.start_station_longitude;
+          var inventory_level = station.num_bikes_available / (station.num_bikes_available+station.num_docks_available);
+          var path_options = {
+            radius :  0.5 * (station.num_bikes_available + station.num_docks_available),
+            color : d3.rgb(16,52,166).brighter(),
+            fillColor : (function(){
+              if(station.num_bikes_available_types.electric > 0) {
+                if(inventory_level > 0.5) {
+                  return d3.rgb(16,52,166).darker(2)
+                }
+                return d3.rgb(16,52,166)
+              }
+              if(station.num_bikes_available_types.smart > 0) {
+                if(inventory_level > 0.5) {
+                  return d3.rgb(245, 141, 66).darker(2)
+                }
+                return d3.rgb(245, 141, 66)
+              }
+              if(station.num_bikes_available_types.classic > 0) {
+                if(inventory_level > 0.5) {
+                  return d3.rgb(38, 166, 16).darker(2)
+                }
+                return d3.rgb(38, 166, 16)
+              }
+              //return inventory_level > 0.5? d3.rgb(16,52,166) : d3.rgb(16,52,166).darker(2)
+            })(),
+            stroke: true,
+            weight : 1,
+            opacity : 1,
+            fillOpacity : 0.8
+          };
+          L.circleMarker([station.lat, station.lon], path_options).addTo(map_3);
+        });
+        */
+      
+        // STEP 3: Create Chord Layout
+        //var chordLayout = d3.chord()
+        /*
+        var height2=1000, width2=2050;
+        var svg2 = d3.select("body").append("svg").attr("width",width2).attr("height",height2);
+        var chLeft = viz.ch()
+          .data(od_matrix)
+          .fill(function(d){ return colorMatrix[d];});
+        svg2.append("g").attr("transform", "translate(300,250)").call(chLeft);  
+        d3.select(self.frameElement).style("height", height2+"px").style("width", width2+"px");
+        */
+        
+        var chordLayout = d3.layout.chord()
+          .matrix(od_matrix)
+          .padding(0.01)
+          .sortGroups(d3.descending); // You can also pass custom sorting functions that compare two objects like function(a,b){...}
+          // About d3.layout.chord():
+        // d3.layout.chord() is a D3 layout object. Read about D3 Layouts here: https://d3indepth.com/layouts/ and about Chord Layout here: https://d3-wiki.readthedocs.io/zh_CN/master/Chord-Layout/
+        // Once the Chord Layout is being assigned an OD matrix ( d3.layout.chord().matrix(od_matrix) ), it can return groups and chords arrays as follows:
+        // function chordLayout.groups() returns the groups
+        // function chordLayout.chords() returns the chords
+
+
+        // STEP 4: Create SVG Shape Generators for arcs and chords
+        var arc = d3.svg.arc()
+            .innerRadius(innerRadius)
+            .outerRadius(outerRadius);
+        // About d3.svg.arc():
+        // d3.svg.arc() is an SVG Shape Generator. Read more about SVG Shape Generators here: https://d3indepth.com/shapes/
+        // d3.svg.arc() takes a group object as an input and returns its path
+        // To define an arc SVG Shape Generator you first need to define the inner and outer radii
+        // function chordLayout.groups() returns an array with all groups (e.g. arc sectors)
+        // each group object contains a start angle, an end angle, an index number, and a value.
+        // for example, arc(chordLayout.groups()[2]) returns the path of the third group
+
+
+        var chord = d3.svg.chord()
+          .radius(innerRadius - 5);
+        // About d3.svg.chord():
+        // d3.svg.chord() is also an SVG Shape Generator. It takes a chord object as an input and returns its path
+        // To define a chord SVG Shape Generator you first need to define the radious
+        // chordLayout.chords() returns an array with all chords
+        // each chord object consists of a source and a target, and each of the source and target is a segment of a group with its own start angle and end angle
+        // for example, chord(chordLayout.chords()[12]) returns the path of the 13th chord
+
+
+        // STEP 5: Create the SVG and an empty group "g" to contain the Arc and Chord Shapes that you will be generating
+        var svgGroup = d3.select("#chordGraph").append("svg")
+          .attr("width", 800)
+          .attr("height", 800)
+          .append("g")
+          .attr("transform", "translate(" + (xPos + outerRadius) + "," + (yPos + outerRadius) + ")");
+        // Create an SVG element in the body of the html page, and define its width and height
+        // Then, append an empty "group" (g) inside it, and determine its X,Y origin
+        // You need this g element in order to start embedding paths inside it and consider them as a single object.
+
+        
+        // STEP 6: Draw Arcs/Groups
+        svgGroup.selectAll(".group")
+          .data(chordLayout.groups())
+          .enter()
+          .append("g")
+          .attr("class", "group")
+          .append("path")
+          .attr("id", function(d, i) { return "group" + i; })
+          .style("fill", function(d) { return color(d.index); })
+          .style("stroke", d3.rgb(100,0,0))
+          .style("stroke-width", 0.5)
+          .attr("d", function(d) { return arc(d)})
+          .on("hover", function (d,i) {
+          })
+          .on("click", function (d,i) {
+          });
+
+        // STEP 7: Draw Chords
+        svgGroup.selectAll(".chord")
+          .data(chordLayout.chords())
+          .enter()
+          .append("path")
+          .attr("class", "chord")
+          .style("fill", d3.rgb(180,100,100))
+          .style("stroke", d3.rgb(180,100,100).darker(3))
+          .style("opacity", 0.05)
+          .attr("d", function(d) { return chord(d)} )
+          .on("hover", function (d) {
+          })
+          .on("click", function (d,i) {
+          });
+          
+          
+          //redraw(create_svg_group("chordGraph", 800,800,xPos,yPos),od_matrix);
+        // STEP 8: Change attributes of Chords (example)
+        // svgGroup.selectAll(".chord")
+          // .style("opacity", function(d){
+          // 	if(d.source.index==2 || d.target.index==2)
+          // 		return 1;
+          // 	else
+          // 		return 0.1
+          // });
+
+        
+
+        /********************/
+        /********************/
+        /***** FUNCTIONS ****/
+        /********************/
+        /********************/
+
+
+        function getStationsFromTrips(trips){
+          var stations = [];
+          var indexByStationName = d3.map();
+          var StationNameByIndex = d3.map();
+          var n = 0;
+          trips.forEach(function(trip) {
+            
+            if (!indexByStationName.has(trip.start_station)) {
+              stations.push({
+                station_id : trip.start_station,
+                name : trip.start_station_name,
+                lat : trip.start_station_lat,
+                lng : trip.start_station_lng,
+              });
+              StationNameByIndex.set(n, trip.start_station);
+              indexByStationName.set(trip.start_station, n++);
+            }
+            if (!indexByStationName.has(trip.end_station)) {
+              stations.push({
+                station_id : trip.end_station,
+                name : trip.end_station_name,
+                lat : trip.end_station_lat,
+                lng : trip.end_station_lng,
+              });
+              StationNameByIndex.set(n, trip.end_station);
+              indexByStationName.set(trip.end_station, n++);
+            }
+
+          });
+          number_of_stations = n;
+          return stations;
+        }
+
+        function createMatrix(tripData, stationData){
+          var indexByNameTrip = d3.map();
+          var nameByIndexTrip = d3.map();
+          var n = 0;
+          tripData.forEach(function(d) {
+            if (!indexByNameTrip.has(d.start_station)) {
+              nameByIndexTrip.set(n, d.start_station);
+              indexByNameTrip.set(d.start_station, n++);
+            }
+
+          });
+
+          var indexByNameStation = d3.map();
+          var nameByIndexStation = d3.map();
+          var j = 0;
+          stationData.forEach(function(d) {
+            if (!indexByNameStation.has(d.name)) {
+              nameByIndexStation.set(j, d.name);
+              indexByNameStation.set(d.name, j++);
+            }
+          });
+
+
+          //Create the OD matrix
+          var od_matrix = [];
+          var aRandom = 0;
+          tripData.forEach(function(d) {
+            var  startStationIndex = indexByNameTrip.get(d.start_station);
+            var  endStationIndex = indexByNameTrip.get(d.end_station);
+            if (!od_matrix[startStationIndex]) {
+              od_matrix[startStationIndex] = [];
+              colorMatrix[startStationIndex] = getRandomColor();
+              for (var i = 0; i < n; i++) {
+                od_matrix[startStationIndex][i] = 0;
+                
+              }
+
+            }
+            od_matrix[startStationIndex][endStationIndex]++;;
+            number_of_trips = number_of_trips+1;
+          });
+
+          for(var x = 0; x<od_matrix.length; x++) {
+            for(var y = 0; y<od_matrix[x].length; y++) {
+              if(od_matrix[x][y]>1)
+                name_matrix.push([nameByIndexStation.get(x), nameByIndexStation.get(y), od_matrix[x][y]]);
+            }
+          }
+          return od_matrix;
+        }
+
+        // From: https://stackoverflow.com/a/1484514 
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+              color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+          }
+
+          
+
+        /*
+        function create_svg_group(div_id, svg_width, svg_height, svg_xPos, svg_yPos){
+            var svg_group = d3.select("#"+div_id).append("svg")
+              .attr("width", svg_width)
+              .attr("height", svg_height)
+              .append("g")
+              .attr("transform", "translate(" + svg_xPos + "," + svg_yPos + ")");
+            return svg_group;
+          }
+        function redraw(svg_group, od_matrix){
+            // Get or Generate data
+            //var nStations = get_nStations();
+           // var nTrips = get_nTrips(nStations);
+            //od_matrix = createMatrix(trips, stationData);
+            // Apply layout to data
+            chordLayout
+              .matrix(od_matrix)
+              .padding(0.01)
+              .sortGroups(d3.descending);
+            // Update()
+            update(svg_group, chordLayout.groups(), chordLayout.chords());
+          }
+        function update(svg_group, arc_data, chord_data){
+          // Arcs
+          // Step 1: Bind data to arcs
+          var arcs = svg_group
+          .selectAll(".arc")
+          .data(arc_data);
+          // Step 2: Append any new arcs if needed
+          arcs
+          .enter()
+          .append("path")
+          .attr("class", "arc");
+          // Step 3: Remove any excessive arcs if needed
+          arcs
+          .exit()
+          .remove();
+          // Step 4: Modify the arcs based on their bound data
+          arcs
+          .attr("id", function(d, i) { return "arc_" + i; })
+          .style("fill", function(d) { return color(d.index); })
+          .style("stroke", d3.rgb(0,0,0))
+          .style("stroke-width", 1)
+          .attr("d", function(d) { return arc(d)});
+          // Chords
+          // STEP 1: Bind data to chords
+          var chords = svg_group
+          .selectAll(".chord")
+          .data(chord_data);
+          // Step 2: Append any new chords if needed
+          chords
+          .enter()
+          .append("path")
+          .attr("class", "chord");
+          // Step 3: Remove any excessive chorsa if needed
+          chords
+          .exit()
+          .remove();
+          // Step 4: Modify the chords based on their bound data
+          chords
+          .attr("id", function(d, i) { return "chord_" + i; })
+          .style("fill", d3.rgb(180,180,180))
+          .style("stroke", d3.rgb(180,180,180).darker(3))
+          .style("opacity", 0.5)
+          .attr("d", function(d) { return chord(d)} )
+          //TickGroups
+          // Step 1: Bind data to tick groups
+          var tickGroups = svg_group
+          .selectAll(".tickGroups")
+          .data(arc_data);
+          // Step 2: Append any new tick groups if needed
+          tickGroups
+          .enter()
+          .append("g")
+          .attr("class", "tickGroups");
+          // Step 3: Remove any excessive tick groups if needed
+          tickGroups
+          .exit()
+          .remove();
+          //Ticks
+          // Step 1: Bind data
+          var ticks = tickGroups
+          .selectAll("g")
+          .data(groupTicks);
+          // Step 2: Append any new elements if needed
+          // SubStep 2.1: Append any new ticks if needed
+          var tick = ticks
+          .enter()
+          .append("g");
+          // SubStep 2.2: Within each tick append any new lines if needed
+          tick
+          .append("line")
+          .attr("x1", 1)
+          .attr("y1", 0)
+          .attr("x2", 10)
+          .attr("y2", 0)
+          .style("stroke", "#000");
+          // SubStep 2.3: Within each tick append any new text if needed
+          tick
+          .append("text")
+          .attr("x", 15)
+          .attr("font-size", "11px")
+          .attr("dy", ".35em");
+          // Step 3: Remove any excessive elements if needed
+          ticks
+          .exit()
+          .remove();
+          // Step 4: Modify elements based on their bound data
+          ticks
+          .attr("transform", function(d) {
+            return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")"
+            + "translate(" + (outerRadius + 10) + ",0)";
+          });
+          ticks
+          .selectAll("text")
+          .attr("transform", function(d) { return d.angle > Math.PI ? "rotate(180)translate(-30)" : null; })
+          .style("text-anchor", function(d) { return d.angle > Math.PI ? "end" : null; })
+          .text(function(d) { return d.label; });
+          }
+          */
+
+      });
+      });
+    });
   
-
-    json.data.stations.forEach(function(station){
-      station.lat = +station.lat;
-      station.lng = +station.lon;
-      var path_options = {
-        radius :  6,
-        color : d3.rgb(16,52,166).brighter(),
-        stroke: true,
-        weight : 1,
-        fill : true,
-        Color: d3.rgb(16,52,166).brighter(),
-      };
-      L.circleMarker([station.lat, station.lon], path_options).addTo(map_2).bindPopup("Station_ID: " + station.station_id + "<br>Address: </br>"+ station.address + "<br>Number of Bikes available: </br>" + station.num_bikes_available + "<br>Number of Docks available:</br>" + station.num_docks_available);
-    });
-
-    var map_3 = L.mapbox.map('map_3')
-    .setView([35.22732,-80.83827], 12)
-    .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/light-v10'));
-    map_3
-    .scrollWheelZoom.disable();
-
-    json.data.stations.forEach(function(station){
-      station.lat = +station.lat;
-      station.lng = +station.lon;
-      var inventory_level = station.num_bikes_available / (station.num_bikes_available+station.num_docks_available);
-      var path_options = {
-        radius :  0.5 * (station.num_bikes_available + station.num_docks_available),
-        color : d3.rgb(16,52,166).brighter(),
-        fillColor : (function(){
-          if(station.num_bikes_available_types.electric > 0) {
-            if(inventory_level > 0.5) {
-              return d3.rgb(16,52,166).darker(2)
-            }
-            return d3.rgb(16,52,166)
-          }
-          if(station.num_bikes_available_types.smart > 0) {
-            if(inventory_level > 0.5) {
-              return d3.rgb(245, 141, 66).darker(2)
-            }
-            return d3.rgb(245, 141, 66)
-          }
-          if(station.num_bikes_available_types.classic > 0) {
-            if(inventory_level > 0.5) {
-              return d3.rgb(38, 166, 16).darker(2)
-            }
-            return d3.rgb(38, 166, 16)
-          }
-          //return inventory_level > 0.5? d3.rgb(16,52,166) : d3.rgb(16,52,166).darker(2)
-        })(),
-        stroke: true,
-        weight : 1,
-        opacity : 1,
-        fillOpacity : 0.8
-      };
-      L.circleMarker([station.lat, station.lon], path_options).addTo(map_3);
-    });
-  });
-
-
-
-
   </script>
 
-
+<div id="aTable" class="twelve columns"></div>
 </body>
 </html>
