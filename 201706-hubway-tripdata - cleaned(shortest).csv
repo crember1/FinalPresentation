@@ -1,4 +1,4 @@
-tripduration,starttime,stoptime,start station id,start station name,start station latitude,start station longitude,end station id,end station name,end station latitude,end station longitude,bikeid,usertype,birth year,gender
+tripduration,starttime,stoptime,start station id,startstationname,start station latitude,start station longitude,end station id,endstationname,end station latitude,end station longitude,bikeid,usertype,birth year,gender
 61,6/1/2017 18:03,6/1/2017 18:04,60,Charles Circle - Charles St at Cambridge St,42.36071445,-71.07092813,60,Charles Circle - Charles St at Cambridge St,42.36071445,-71.07092813,1762,Subscriber,1974,1
 61,6/8/2017 8:37,6/8/2017 8:38,17,Soldiers Field Park - 111 Western Ave,42.365064,-71.119233,17,Soldiers Field Park - 111 Western Ave,42.365064,-71.119233,1808,Subscriber,1981,1
 61,6/8/2017 22:10,6/8/2017 22:11,46,Christian Science Plaza - Massachusetts Ave at Westland Ave,42.34366582,-71.08582377,46,Christian Science Plaza - Massachusetts Ave at Westland Ave,42.34366582,-71.08582377,1792,Subscriber,1985,1
