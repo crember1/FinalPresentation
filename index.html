@@ -238,7 +238,7 @@ path.domain {
 
       function shapedEdge(d,i) {
         var draw = d3.svg.line().interpolate("basis");
-        var sw = linkScale(d.weight)
+        var sw = linkScale(d.tripduration)
         var midX = (d.startstationname.x + d.endstationname.x) / 2;
         var midY = d.startstationname.x - d.endstationname.x - sw;
         var midY2 = d.startstationname.x - d.endstationname.x + sw;
