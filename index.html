@@ -194,6 +194,7 @@ path.domain {
   function arcDiagram() {
     queue()
     .defer(d3.csv, "201706-hubway-tripdata - cleaned(shortest).csv")
+    .defer(d3.csv, "Hubway_Stations_as_of_July_2017.csv")
     .await(function(error, file1, file2) { createArcDiagram(file1, file2); });
     function createArcDiagram(nodes,edges) {
       
@@ -202,7 +203,7 @@ path.domain {
       
       var nodeHash = {};
       for (x in nodes) {
-        nodeHash[nodes[x].id] = nodes[x];
+        nodeHash[nodes[x].Name] = nodes[x];
         nodes[x].x = parseInt(x) * 50;
       }
       for (x in edges) {
