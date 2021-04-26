@@ -1,4 +1,4 @@
-tripduration,start station id,end station id
+weight,source,target
 100558,74,22
 81100,74,387
 65582,74,139
