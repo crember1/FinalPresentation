@@ -208,12 +208,12 @@ path.domain {
         nodes[x].x = parseInt(x) * 50;
       }
       for (x in edges) {
-        edges[x].weight = parseInt(edges[x].weight/60);
+        edges[x].weight = parseInt(edges[x].weight);
         edges[x].source = nodeHash[edges[x].source];
         edges[x].target = nodeHash[edges[x].target];
       }
       
-      linkScale = d3.scale.linear().domain(d3.extent(edges, function (d) {return d.weight/60})).range([5,10])
+      linkScale = d3.scale.linear().domain(d3.extent(edges, function (d) {return d.weight})).range([5,10])
       
       var arcG = d3.select("svg").append("g").attr("id", "arcG").attr("transform", "translate(50,250)");
 
@@ -240,7 +240,7 @@ path.domain {
 
       function shapedEdge(d,i) {
         var draw = d3.svg.line().interpolate("basis");
-        var sw = linkScale(d.weight/60)
+        var sw = linkScale(d.weight)
         var midX = (d.source.x + d.target.x) / 2;
         var midY = d.source.x - d.target.x - sw;
         var midY2 = d.source.x - d.target.x + sw;
