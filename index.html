@@ -138,7 +138,7 @@
     </div>
   </div>
 
-  <div id="vizcontainer" class="one-bottom"></div>
+  <div id="#my_dataviz" class="one-bottom"></div>
                                                                      
   <div class="container one-bottom" >
     <div class="twelve columns" >
@@ -159,103 +159,103 @@
     <h5 style="color:white">Brian Ferrell</h5>
     <p style="color:white">Brian Ferrell contributed to creating diagrams with Boston and BlueBikes data using GIS programs, webpage layout, research, presentation, and introduction. </p>
   </div>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-  <title>D3 in Action Arc Diagram</title>
-  <meta charset="utf-8" />
-</head>
-<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-<script src="http://d3js.org/queue.v1.min.js" type="text/javascript"></script>
-<style>
-.tick line {
-  shape-rendering: crispEdges;
-  stroke: #000;
-}
-
-line.minor  {
-  stroke: #777;
-  stroke-dasharray: 2,2;
-}
-
-path.domain {
-  fill: none;
-  stroke: black;
-}
-
-</style>
-<body onload="arcDiagram()">
-
-<div id="vizcontainer">
-<svg style="width:500px;height:500px;border:1px lightgray solid;" />
-</div>
 <script>
-  function arcDiagram() {
-    queue()
-    .defer(d3.csv, "201706-hubway-tripdata - cleaned(shortest).csv")
-    .defer(d3.csv, "Hubway_Stations_as_of_July_2017.csv")
-    .await(function(error, file1, file2) { createArcDiagram(file1, file2); });
-    function createArcDiagram(nodes,edges) {
-      
-      expEdges = edges;
-      expNodes = nodes;
-      
-      var nodeHash = {};
-      for (x in nodes) {
-        nodeHash[nodes[x].Name] = nodes[x];
-        nodes[x].x = parseInt(x) * 50;
-      }
-      for (x in edges) {
-        edges[x].tripduration = parseInt(edges[x].tripduration);
-        edges[x].startstationname = nodeHash[edges[x].startstationname];
-        edges[x].endstationname = nodeHash[edges[x].endstationname];
-      }
-      
-      linkScale = d3.scale.linear().domain(d3.extent(edges, function (d) {return d.tripduration})).range([5,10])
-      
-      var arcG = d3.select("svg").append("g").attr("id", "arcG").attr("transform", "translate(50,250)");
 
-      arcG.selectAll("path")
-      .data(edges)
-      .enter()
-      .append("path")
-      .style("stroke", "none")
-      .style("opacity", .25)
-      .style("fill", "black")
-      .attr("d", shapedEdge)
-      .on("mouseover", edgeOver)
-      
-      arcG.selectAll("circle")
-      .data(nodes)
-      .enter()
-      .append("circle")
-      .attr("r", 10)
-      .style("fill", "lightgray")
-      .style("stroke", "black")
-      .style("stroke-width", "1px")
-      .attr("cx", function (d) {return d.x})
-      .on("mouseover", nodeOver)
+// set the dimensions and margins of the graph
+var margin = {top: 20, right: 30, bottom: 20, left: 30},
+  width = 450 - margin.left - margin.right,
+  height = 300 - margin.top - margin.bottom;
 
-      function shapedEdge(d,i) {
-        var draw = d3.svg.line().interpolate("basis");
-        var sw = linkScale(d.tripduration)
-        var midX = (d.startstationname.x + d.endstationname.x) / 2;
-        var midY = d.startstationname.x - d.endstationname.x - sw;
-        var midY2 = d.startstationname.x - d.endstationname.x + sw;
-        return draw([[d.startstationname.x,0],[midX,midY],[d.endstationname.x + (sw*1.5),0],[d.startstationname.x - (sw*1.5),0],[midX,midY2],[d.startstationname.x,0]])
-      }
-      
-      function nodeOver(d,i) {
-        d3.selectAll("circle").style("fill", function (p) {return p == d ? "red" : "lightgray"})
-        d3.selectAll("path").style("fill", function (p) {return p.startstationname == d || p.endstationname == d ? "red" : "black"})
-      }
-      
-      function edgeOver(d) {
-        d3.selectAll("path").style("fill", function(p) {return p == d ? "red" : "black"})
-        d3.selectAll("circle").style("fill", function(p) {return p == d.startstationname ? "blue" : p == d.endstationname ? "green" : "lightgray"})}
-      
-    }
-  }
+// append the svg object to the body of the page
+var svg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+// Read dummy data
+d3.csv("201906 - tripdata - cleaned(longest).csv", function( tripData) {
+  var trips = tripData.map(function(d){
+    var trip={};
+    
+      trip.duration = +d["tripduration"];
+    
+      trip.start_station = +d["start station id"];
+      trip.start_station_name = d["start station name"];
+    
+      trip.end_station = +d["end station id"];
+      trip.end_station_name = d["end station name"];
+    
+      trip.station_id = d["id"];
+      trip.station_name = d["name"];
+    
+    return trip;
+  })
+  
+})
+
+  // List of node names
+  var allNodes = trip.station_id.map(function(d){return d.station_name})
+
+  // A linear scale to position the nodes on the X axis
+  var x = d3.scalePoint()
+    .range([0, width])
+    .domain(allNodes)
+
+  // Add the circle for the nodes
+  svg
+    .selectAll("mynodes")
+    .data(trip.station_name)
+    .enter()
+    .append("circle")
+      .attr("cx", function(d){ return(x(d.station_name))})
+      .attr("cy", height-30)
+      .attr("r", 8)
+      .style("fill", "#69b3a2")
+
+  // And give them a label
+  svg
+    .selectAll("mylabels")
+    .data(trip.station_id)
+    .enter()
+    .append("text")
+      .attr("x", function(d){ return(x(d.station_name))})
+      .attr("y", height-10)
+      .text(function(d){ return(d.station_name)})
+      .style("text-anchor", "middle")
+
+  // Add links between nodes. Here is the tricky part.
+  // In my input data, links are provided between nodes -id-, NOT between node names.
+  // So I have to do a link between this id and the name
+  var idToNode = {};
+  trip.station_name.forEach(function (n) {
+    idToNode[n.station_id] = n;
+  });
+  // Cool, now if I do idToNode["2"].name I've got the name of the node with id 2
+
+  // Add the links
+  svg
+    .selectAll('mylinks')
+    .data(trip.links)
+    .enter()
+    .append('path')
+    .attr('d', function (d) {
+      start = x(idToNode[d.source].name)    // X position of start node on the X axis
+      end = x(idToNode[d.target].name)      // X position of end node
+      return ['M', start, height-30,    // the arc starts at the coordinate x=start, y=height-30 (where the starting node is)
+        'A',                            // This means we're gonna build an elliptical arc
+        (start - end)/2, ',',    // Next 2 lines are the coordinates of the inflexion point. Height of this point is proportional with start - end distance
+        (start - end)/2, 0, 0, ',',
+        start < end ? 1 : 0, end, ',', height-30] // We always want the arc on top. So if end is before start, putting 0 here turn the arc upside down.
+        .join(' ');
+    })
+    .style("fill", "none")
+    .attr("stroke", "black")
+
+})
+
   </script>
 </body>
 </html>
