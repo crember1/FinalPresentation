@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <style>
 </style>
@@ -45,7 +45,21 @@
     cursor:pointer;
     font-weight:bold;
   }  
-    
+    .tick line {
+  shape-rendering: crispEdges;
+  stroke: #000;
+}
+
+line.minor  {
+  stroke: #777;
+  stroke-dasharray: 2,2;
+}
+
+path.domain {
+  fill: none;
+  stroke: black;
+}
+
     
  
   </style>
@@ -53,6 +67,7 @@
   <!-- D3 -->
   <script src="https://d3js.org/d3.v3.min.js"></script>
   <script src="http://vizjs.org/viz.v1.1.0.min.js"></script>
+  <script src="http://d3js.org/queue.v1.min.js" type="text/javascript"></script>
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="images/favicon.png">
 
@@ -161,30 +176,6 @@
   </div>
 </script>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <p>Action Arc Diagram</p>
-    <meta charset="utf-8" />
-</head>
-<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-<script src="http://d3js.org/queue.v1.min.js" type="text/javascript"></script>
-<style>
-.tick line {
-  shape-rendering: crispEdges;
-  stroke: #000;
-}
-
-line.minor  {
-  stroke: #777;
-  stroke-dasharray: 2,2;
-}
-
-path.domain {
-  fill: none;
-  stroke: black;
-}
-
-</style>
 <body onload="arcDiagram()">
 
 <div id="vizcontainer">
