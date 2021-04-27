@@ -1,11 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-<style>
-</style>
-  
-  
-  
+
   <!-- Basic Page Needs–– -->
   <meta charset="utf-8">
   <title>MoD Final Presentation</title>
@@ -26,230 +22,179 @@
   <script src='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js'></script>
   <link href='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css' rel='stylesheet' />
   <style>
-  #map_1,#map_2, #map_2_5, #map_3 {
+  #map_1,#map_2,#map_3 {
     height: 500px;
   }
-    hr.line1{
-        border: solid rgb(0, 128, 255); 
-              }
-  svg text{
-    fill:white;
-    text-anchor:middle;
-   font-size:18px;
-  }
-  svg .values text{
-    pointer-events:none;
-    stroke-width: 0.5px;
-  }
-  .groups:hover{
-    cursor:pointer;
-    font-weight:bold;
-  }  
-    .tick line {
-  shape-rendering: crispEdges;
-  stroke: #000;
-}
-
-line.minor  {
-  stroke: #777;
-  stroke-dasharray: 2,2;
-}
-
-path.domain {
-  fill: none;
-  stroke: black;
-}
-
-    
- 
   </style>
 
-  <!-- D3 -->
-  <script src="https://d3js.org/d3.v3.min.js"></script>
-  <script src="http://vizjs.org/viz.v1.1.0.min.js"></script>
-  <script src="http://d3js.org/queue.v1.min.js" type="text/javascript"></script>
+  <!-- D3 v4 -->
+  <script src="https://d3js.org/d3.v4.js"></script>
+  
+  <!-- Load color palette -->
+  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="images/favicon.png">
 
 </head>
-<body style="background-color:rgb(255, 255, 255)">
+<body>
 
   <div class="container one-bottom" style="margin-top: 50px">
     <div class="ten columns">
       <h2>Hubway to Blue Bikes</h2>
-      <h5>What was the impact of re-branding on Boston's bike-share system regarding trip duration?</h5>
+      <h4>What was the impact of re-branding on Boston's bike share system regarding trip duration?</h4>
       <p>
-        ARCH 6306/6050, DSBA 6010, ITIS 8010/6010: Wednesdays 6pm-8:30pm, Taught Online.
+        ARCH 6306/6050, DSBA 6010, ITIS 8010/6010: Wednesdays 6pm-8:30pm, Taught Online
         <br>
-        Anibal Robles | Brian Ferrell | Coral Rembert | Ryan Carriere |  
-        Boston Blue Bikes | https://www.bluebikes.com/
+        Anibal Robles Perez | Ryan Carriere | Brian Ferrel | Coral Rembert | https://www.bluebikes.com/
       </p>
-      <hr class="line1" width="100%">
     </div>
     <div class="two columns">
-      <a href="https://www.bluebikes.com/" target="blank"><img class="scale-with-grid"
-        src="img/bluebikes.jpg" height = "150" width = "300" style="float:right;"></a>
-    </div>
-    <div class="twelve columns">
-      <h3>Introduction</h3>
-    </div>
-    <div class="row">
-      <img class="four columns scale-with-grid quarter-bottom-rel" src="img/hubway station.jpg">
-      <img class="four columns scale-with-grid quarter-bottom-rel" src="img/hubway.jpg">
-      <img class="four columns scale-with-grid quarter-bottom-rel" src="img/people on hubway.jpg">
-    </div>
-    <div class="twelve columns">
-      <h4 style="color:white">Hubway</h4>
-      <p style="color:white">The Bostonbikes program was founded in 2007, and the Metropolitan Area Planning Council joined due to the need for the service to span town boundaries. Brookline, Cambridge, and Somerville joined Boston to bring the service to their communities as well. Hubway began as a bike share platform that was launched in 2011 with 600 bicycles and 60 stations. Brookline, Cambridge, and Somerville launched stations in 2012, and Hubway rides continued to grow exponentially. By 2014, Hubway had around 10,00 annual memberships and had sold 79,000 Day Passes, 9,000 3-Day Passes, and 2,000 Monthly Memberships in the previous year. From 2015 to 2016, Hubway expanded to more neighborhoods in Boston and Cambridge. Before Hubway’s rebranding to Bluebikes, the system had expanded to include 185 stations with 600 bicycles.
-</p>
-    </div>
-  </div>
-  <div class="container one-bottom" >
-    <div class="twelve columns">
-      <h3>Expansion and Transformation</h3>
-      <h4>How?</h4>
-      <p>In 2017, Blue Cross Blue Shield of Massachusetts sponsored the bike share system and changed the name to BlueBikes. The expansion was set to bring the number of bikes to 3000 and increase the number of stations by 100.</p>
-      <p>Our Research is focusing on the transition from Hubway to BlueBikes and the expansion of the system into the surrounding areas of Boston. When the service was expanded, more residential areas gained access to stations, which provided more residents access to the service as a first-mile solution in their commute. We are analyzing trip data from 2017 before the expansion/ transition to BlueBikes and comparing data from 2019 after the expansion.This project investigates the strategies that the service is using in its expansion and the characteristics of the neighborhoods that the expansion affects.</p>
-      <h5>Feature Changes</h5>
-      <h6> Fig. 1 </h6>
-      <img class="container one-bottom" src="img/hubway to bluebikes diagram.svg" style="float:center;">
+    <a href="https://www.bluebikes.com/" target="blank"><img class="scale-with-grid"src="img/bluebikes.jpg" height = "150" width = "300" style="float:right;"></a>
     </div>
   </div>
 
-  <div class="container one-bottom" >
+  <div class="container one-bottom" style="margin-top: 50px">
     <div class="twelve columns">
-      <h5>Average Trip Duration Pre-Rebranding vs. Average Trip Duration Post-Rebranding<h5>
-      <h6> Fig. 2 </h6>                   
-      <p>
-        Comparison of average trip duration in the year 2017, pre-rebrand to average trip duration in the year 2019, post-rebrand.
-      </p>
-                         
+      <h3>Arc Graph</h3>
+      <p></p>
+      <div id="my_dataviz"></div>
     </div>
   </div>
 
-  <!--<div id="map_1" class="one-bottom"></div>-->
-  <div id="map_2" class="one-bottom"></div>
 
-  <div class="container one-bottom" >
-    <div class="twelve columns">
-      <h5>Analysis of Shortest and Longest Trips</h5>
-      <h6>Fig. 3 </h6>                         
-      <p>
-        Analysis of the shortest and longest trips taken in the year 2017 vs. the shortest and longest trips taken in the year 2019.
-      </p>
+
+    <div class="container one-bottom" style="margin-top: 50px">
+      <div class="four columns offset-by-four">
+        <a href="https://urbansynergeticslab.net/"><img class="scale-with-grid" src="img/LabLogo_dark_cropped.png"></a>
+      </div>
     </div>
-  </div>
 
-<!--  <div id="map_3" class="one-bottom"></div>-->
-<div id="map_2_5" class="one-bottom"></div>
 
-  <div class="container one-bottom" >
-    <div class="twelve columns">
-      <h5>Significant Trips</h5>
-      <h6>Fig. 4 </h6>                         
-      <p>
-        Taking a look at significant short and long trips and the what stations these trips occurred at and comparing these between 2017 and 2019.
-      </p>
-    </div>
-  </div>
+<script>
+// set the dimensions and margins of the graph
+var margin = {top: 0, right: 30, bottom: 50, left: 60},
+  width = 650 - margin.left - margin.right,
+  height = 400 - margin.top - margin.bottom;
 
-  <div id="vizcontainer" class="one-bottom"></div>
-                                                                     
-  <div class="container one-bottom" >
-    <div class="twelve columns" >
-      <h3 style="color:white">Conclusion</h3>
-      <p style="color:white">Boston’s transition from Hubway to BlueBikes has brought expanded transportation options to multiple new neighborhoods in the surrounding areas. When Hubway began the system, the goal was to provide a mostly short-term service to serve tourists and visitors to Boston. With the subsequent expansions, the service expanded into more residential areas to give local citizens more access to the service as a long term membership, providing options like income eligible membership pricing. This resulted in higher levels of long-term membership among residents. Overall, the system saw increases in total trips vs miles traveled and the total number of trips per year.
-</p>
-    </div>
-  </div>                                 
+// append the svg object to the body of the page
+var svg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
 
-  <div class="container one-bottom" >
-    <h4>Team & Contributions</h4>
-    <h5>Ryan Carriere</h5>
-    <p>Ryan Carriere contributed to creating the graphs in the Blue Bikes today section. Also helped with coding.</p>
-    <h5>Coral Rembert</h5>
-    <p>Coral Rembert contributed to creating the Github page, finding data and figuring out what data to represent, research question, page layout and narrative organization, impact section verbage, and adding pictures.</p>
-    <h5>Anibal Robles</h5>
-    <p>Anibal Robles contributed to creating the interactive graphs, implementing the multiple csv files for getting data, and implementing the chord graph.</p>
-    <h5>Brian Ferrell</h5>
-    <p>Brian Ferrell contributed to creating diagrams with Boston and BlueBikes data using GIS programs, webpage layout, research, presentation, and introduction. </p>
-  </div>
+// Read dummy data
+d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/data_researcherNetwork.json", function( data) {
+
+  // List of node names
+  var allNodes = data.nodes.map(function(d){return d.name})
+
+  // List of groups
+  var allGroups = data.nodes.map(function(d){return d.grp})
+  allGroups = [...new Set(allGroups)]
+
+  // A color scale for groups:
+  var color = d3.scaleOrdinal()
+    .domain(allGroups)
+    .range(d3.schemeSet3);
+
+  // A linear scale for node size
+  var size = d3.scaleLinear()
+    .domain([1,10])
+    .range([2,10]);
+
+  // A linear scale to position the nodes on the X axis
+  var x = d3.scalePoint()
+    .range([0, width])
+    .domain(allNodes)
+
+  // In my input data, links are provided between nodes -id-, NOT between node names.
+  // So I have to do a link between this id and the name
+  var idToNode = {};
+  data.nodes.forEach(function (n) {
+    idToNode[n.id] = n;
+  });
+
+  // Add the links
+  var links = svg
+    .selectAll('mylinks')
+    .data(data.links)
+    .enter()
+    .append('path')
+    .attr('d', function (d) {
+      start = x(idToNode[d.source].name)    // X position of start node on the X axis
+      end = x(idToNode[d.target].name)      // X position of end node
+      return ['M', start, height-30,    // the arc starts at the coordinate x=start, y=height-30 (where the starting node is)
+        'A',                            // This means we're gonna build an elliptical arc
+        (start - end)/2, ',',    // Next 2 lines are the coordinates of the inflexion point. Height of this point is proportional with start - end distance
+        (start - end)/2, 0, 0, ',',
+        start < end ? 1 : 0, end, ',', height-30] // We always want the arc on top. So if end is before start, putting 0 here turn the arc upside down.
+        .join(' ');
+    })
+    .style("fill", "none")
+    .attr("stroke", "grey")
+    .style("stroke-width", 1)
+
+  // Add the circle for the nodes
+  var nodes = svg
+    .selectAll("mynodes")
+    .data(data.nodes.sort(function(a,b) { return +b.n - +a.n }))
+    .enter()
+    .append("circle")
+      .attr("cx", function(d){ return(x(d.name))})
+      .attr("cy", height-30)
+      .attr("r", function(d){ return(size(d.n))})
+      .style("fill", function(d){ return color(d.grp)})
+      .attr("stroke", "white")
+
+  // And give them a label
+  var labels = svg
+    .selectAll("mylabels")
+    .data(data.nodes)
+    .enter()
+    .append("text")
+      .attr("x", 0)
+      .attr("y", 0)
+      .text(function(d){ return(d.name)} )
+      .style("text-anchor", "end")
+      .attr("transform", function(d){ return( "translate(" + (x(d.name)) + "," + (height-15) + ")rotate(-45)")})
+      .style("font-size", 6)
+
+  // Add the highlighting functionality
+  nodes
+    .on('mouseover', function (d) {
+      // Highlight the nodes: every node is green except of him
+      nodes
+        .style('opacity', .2)
+      d3.select(this)
+        .style('opacity', 1)
+      // Highlight the connections
+      links
+        .style('stroke', function (link_d) { return link_d.source === d.id || link_d.target === d.id ? color(d.grp) : '#b8b8b8';})
+        .style('stroke-opacity', function (link_d) { return link_d.source === d.id || link_d.target === d.id ? 1 : .2;})
+        .style('stroke-width', function (link_d) { return link_d.source === d.id || link_d.target === d.id ? 4 : 1;})
+      labels
+        .style("font-size", function(label_d){ return label_d.name === d.name ? 16 : 2 } )
+        .attr("y", function(label_d){ return label_d.name === d.name ? 10 : 0 } )
+
+    })
+    .on('mouseout', function (d) {
+      nodes.style('opacity', 1)
+      links
+        .style('stroke', 'grey')
+        .style('stroke-opacity', .8)
+        .style('stroke-width', '1')
+      labels
+        .style("font-size", 6 )
+
+    })
+})
+
 </script>
 
-<body onload="arcDiagram()">
 
-<div id="vizcontainer">
-<svg style="width:500px;height:500px;border:1px lightgray solid;" />
-</div>
-  <footer>
-<script>
-  function arcDiagram() {
-    queue()
-    .defer(d3.csv, "201906 - longest - nodes.csv")
-    .defer(d3.csv, "201906 - longest - links.csv")
-    .await(function(error, file1, file2) { createArcDiagram(file1, file2); });
-    function createArcDiagram(nodes,edges) {
-      
-      expEdges = edges;
-      expNodes = nodes;
-      
-      var nodeHash = {};
-      for (x in nodes) {
-        nodeHash[nodes[x].id] = nodes[x];
-        nodes[x].x = parseInt(x) * 50;
-      }
-      for (x in edges) {
-        edges[x].weight = parseInt(edges[x].weight);
-        edges[x].source = nodeHash[edges[x].source];
-        edges[x].target = nodeHash[edges[x].target];
-      }
-      
-      linkScale = d3.scale.linear().domain(d3.extent(edges, function (d) {return d.weight})).range([5,10])
-      
-      var arcG = d3.select("svg").append("g").attr("id", "arcG").attr("transform", "translate(50,250)");
-
-      arcG.selectAll("path")
-      .data(edges)
-      .enter()
-      .append("path")
-      .style("stroke", "none")
-      .style("opacity", .25)
-      .style("fill", "black")
-      .attr("d", shapedEdge)
-      .on("mouseover", edgeOver)
-      
-      arcG.selectAll("circle")
-      .data(nodes)
-      .enter()
-      .append("circle")
-      .attr("r", 10)
-      .style("fill", "lightgray")
-      .style("stroke", "black")
-      .style("stroke-width", "1px")
-      .attr("cx", function (d) {return d.x})
-      .on("mouseover", nodeOver)
-
-      function shapedEdge(d,i) {
-        var draw = d3.svg.line().interpolate("basis");
-        var sw = linkScale(d.weight)
-        var midX = (d.source.x + d.target.x) / 2;
-        var midY = d.source.x - d.target.x - sw;
-        var midY2 = d.source.x - d.target.x + sw;
-        return draw([[d.source.x,0],[midX,midY],[d.target.x + (sw*1.5),0],[d.target.x - (sw*1.5),0],[midX,midY2],[d.source.x,0]])
-      }
-      
-      function nodeOver(d,i) {
-        d3.selectAll("circle").style("fill", function (p) {return p == d ? "red" : "lightgray"})
-        d3.selectAll("path").style("fill", function (p) {return p.source == d || p.target == d ? "red" : "black"})
-      }
-      
-      function edgeOver(d) {
-        d3.selectAll("path").style("fill", function(p) {return p == d ? "red" : "black"})
-        d3.selectAll("circle").style("fill", function(p) {return p == d.source ? "blue" : p == d.target ? "green" : "lightgray"})}
-      
-    }
-  }
-  </script>
-  </footer>
-</body>
-</html>
+  </body>
+  </html>
