@@ -62,7 +62,13 @@
     </div>
   </div>
 
-  <iframe src="https://kepler.gl/demo/map?mapUrl=https://dl.dropboxusercontent.com/s/4eqam699917sd7b/keplergl_ciwawbl.json" style="border:0px #ffffff none;" name="myiFrame" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="700px" width="1500px" allowfullscreen></iframe>
+  <!-- <iframe src="https://kepler.gl/demo/map?mapUrl=https://dl.dropboxusercontent.com/s/4eqam699917sd7b/keplergl_ciwawbl.json" style="border:0px #ffffff none;" name="myiFrame" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="700px" width="1500px" allowfullscreen></iframe> -->
+
+  <p style="color:white">
+    Hubway station locations in the Boston, Cambridge, Brookline, and Somerville areas as of 2017. Pre-expansion.
+  </p>
+
+  <div id="map_2" class="one-bottom"></div>
 
   <button onclick="update(t17)">2017</button>
   <button onclick="update(t19)">2019</button>
@@ -72,6 +78,8 @@
 
 <script>
 // set the dimensions and margins of the graph
+L.mapbox.accessToken = 'pk.eyJ1IjoiZGltcCIsImEiOiJkRnlra3RjIn0.E9CTYzNUEx0yb3dcfV4SiA';
+
 var margin = {top: 200, right: 30, bottom: 200, left: 60},
   width = 650 - margin.left - margin.right,
   height = 600 - margin.top - margin.bottom;
@@ -85,6 +93,59 @@ var svg = d3.select("#my_dataviz")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
 
+var aStationId = 0;
+
+d3.csv("Hubway_Stations_as_of_July_2017.csv", function(station_2017Data){
+
+    var stations = station_2017Data.map(function(aData)
+        {
+          var station = {};
+
+          station.a_station = +aData["Number"];
+          station.station_name = aData["Name"];
+          station.station_lat = +aData["Latitude"];
+          station.station_lng = +aData["Longitude"];
+          station.district = aData["District"];
+          station.public = aData["Public"];
+          station.total_docks = +aData["Total docks"];
+          
+          return station;
+        });
+
+
+    var map_2 = L.mapbox.map('map_2')
+        .setView([42.3601,-71.0589], 12)
+        .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/light-v10'));
+        map_2
+        .scrollWheelZoom.disable();
+
+        //https://gis.stackexchange.com/a/172586 
+        var markersLayer = L.featureGroup().addTo(map_2);
+        stations.forEach(function(station){
+
+        station.station_lat = +station.station_lat;
+        station.station_lng = +station.station_lng;
+        
+        var path_options = {};
+        var isStart = "";
+
+        path_options = {
+          radius :  6,
+          color : d3.rgb(16,52,166).brighter(),
+          stroke: true,
+          weight : 1,
+          fill : true,
+          Color: d3.rgb(16,52,166).brighter(),
+        };
+          
+        L.circleMarker([station.station_lat, station.station_lng], path_options).addTo(markersLayer).bindPopup(
+        station.station_name);
+        markersLayer.on("click", function (event) {
+            var clickedMarker = event.layer;
+            console.log(clickedMarker._popup._content)
+        });
+      });
+});
 
 d3.csv("201906 - longest.csv", function(data) {
 
