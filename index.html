@@ -29,6 +29,7 @@
 
   <!-- D3 v4 -->
   <script src="https://d3js.org/d3.v4.js"></script>
+  <script src="http://vizjs.org/viz.v1.1.0.min.js"></script>
 
   <!-- Load color palette -->
   <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
@@ -65,10 +66,18 @@
   <!-- <iframe src="https://kepler.gl/demo/map?mapUrl=https://dl.dropboxusercontent.com/s/4eqam699917sd7b/keplergl_ciwawbl.json" style="border:0px #ffffff none;" name="myiFrame" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="700px" width="1500px" allowfullscreen></iframe> -->
 
   <p style="color:white">
-    Hubway station locations in the Boston, Cambridge, Brookline, and Somerville areas as of 2017. Pre-expansion.
+    Hubway station (2017) locations in the Boston, Cambridge, Brookline, and Somerville areas as of 2017. Pre-expansion.
   </p>
 
-  <div id="map_2" class="one-bottom"></div>
+
+  <div id="map_1" class="one-bottom"></div>
+
+  <p style="color:white">
+    Hubway station (2019) locations in the Boston, Cambridge, Brookline, and Somerville areas as of 2017. Pre-expansion.
+  </p>
+
+
+  <div id="map2019" class="one-bottom"></div>
 
   <button onclick="update(t17)">2017</button>
   <button onclick="update(t19)">2019</button>
@@ -93,58 +102,107 @@ var svg = d3.select("#my_dataviz")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
 
-var aStationId = 0;
-
-d3.csv("Hubway_Stations_as_of_July_2017.csv", function(station_2017Data){
-
-    var stations = station_2017Data.map(function(aData)
-        {
-          var station = {};
-
-          station.a_station = +aData["Number"];
-          station.station_name = aData["Name"];
-          station.station_lat = +aData["Latitude"];
-          station.station_lng = +aData["Longitude"];
-          station.district = aData["District"];
-          station.public = aData["Public"];
-          station.total_docks = +aData["Total docks"];
-          
-          return station;
-        });
+var stationId17 = 0;
+var stationId19 = 0;
 
 
-    var map_2 = L.mapbox.map('map_2')
-        .setView([42.3601,-71.0589], 12)
-        .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/light-v10'));
-        map_2
-        .scrollWheelZoom.disable();
+d3.csv("201706-hubway-tripdata.csv", function(tripData2017) {
+  d3.csv("201906-bluebikes-tripdata.csv", function(tripData2019) {
 
-        //https://gis.stackexchange.com/a/172586 
-        var markersLayer = L.featureGroup().addTo(map_2);
-        stations.forEach(function(station){
 
-        station.station_lat = +station.station_lat;
-        station.station_lng = +station.station_lng;
-        
-        var path_options = {};
-        var isStart = "";
+    var parseTime = d3.timeParse("%Y-%m-%d %H:%M:%S");
 
-        path_options = {
-          radius :  6,
-          color : d3.rgb(16,52,166).brighter(),
-          stroke: true,
-          weight : 1,
-          fill : true,
-          Color: d3.rgb(16,52,166).brighter(),
-        };
-          
-        L.circleMarker([station.station_lat, station.station_lng], path_options).addTo(markersLayer).bindPopup(
-        station.station_name);
-        markersLayer.on("click", function (event) {
-            var clickedMarker = event.layer;
-            console.log(clickedMarker._popup._content)
-        });
+    var trips2017 = tripData2017.map(function(aData)
+    {
+      var trip = {};
+
+      //trip.starttime = d3.timeFormat("%Y-%m-%d %H:%M:%S");
+      trip.starttime = parseTime(aData["starttime"].slice(0,-5));
+      //trip.stoptime = d3.timeFormat("%Y-%m-%d %H:%M:%S")
+      trip.stoptime = parseTime(aData["stoptime"].slice(0,-5));
+      trip.duration = +aData["tripduration"];
+      trip.start_station = +aData["start station id"];
+      trip.end_station = +aData["end station id"];
+      trip.start_station_name = aData["start station name"];
+      trip.end_station_name = aData["end station name"];
+      trip.start_station_lat = +aData["start station latitude"];
+      trip.end_station_lat = +aData["end station latitude"];
+      trip.start_station_lng = +aData["start station longitude"];
+      trip.end_station_lng = +aData["end station longitude"];
+      trip.bikeid = +aData["bikeid"];
+      trip.usertype = aData["usertype"];
+      
+      return trip;
+    });
+
+    var trips2019 = tripData2019.map(function(aData)
+    {
+      var trip = {};
+
+      //trip.starttime = d3.timeFormat("%Y-%m-%d %H:%M:%S").parse(aData["starttime"].slice(0,-5));
+      trip.starttime = parseTime(aData["starttime"].slice(0,-5));
+      //trip.stoptime = d3.timeFormat("%Y-%m-%d %H:%M:%S").parse(aData["stoptime"].slice(0,-5));
+      trip.stoptime = parseTime(aData["stoptime"].slice(0,-5));
+      trip.duration = +aData["tripduration"];
+      trip.start_station = +aData["start station id"];
+      trip.end_station = +aData["end station id"];
+      trip.start_station_name = aData["start station name"];
+      trip.end_station_name = aData["end station name"];
+      trip.start_station_lat = +aData["start station latitude"];
+      trip.end_station_lat = +aData["end station latitude"];
+      trip.start_station_lng = +aData["start station longitude"];
+      trip.end_station_lng = +aData["end station longitude"];
+      trip.bikeid = +aData["bikeid"];
+      trip.usertype = aData["usertype"];
+      
+      return trip;
+    });
+
+    stations2017 = getStationsFromTrips(trips2017);
+    stations2019 = getStationsFromTrips(trips2019);
+
+    var map_1 = L.mapbox.map('map_1')
+      .setView([42.3601,-71.0589], 12)
+      .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/light-v10'));
+      map_1
+      .scrollWheelZoom.disable();
+
+    stations2017.forEach(function(station){
+      
+      //https://gis.stackexchange.com/a/172586 
+      var markersLayer = L.featureGroup().addTo(map_1);
+      station.lat = +station.lat;
+      station.lng = +station.lng;
+      
+      var path_options = {};
+
+      path_options = {
+        radius :  6,
+        color : d3.rgb(16,52,166).brighter(),
+        stroke: true,
+        weight : 1,
+        fill : true,
+        Color: d3.rgb(16,52,166).brighter(),
+      };
+
+      L.circleMarker([station.lat, station.lng], path_options).addTo(markersLayer).bindPopup(
+          "Station Name: " + station.name 
+          + "<br>Station ID: </br>" + station.station_id);  
+
+      markersLayer.on("click", function (event) {
+        var clickedMarker = event.layer;
+        console.log(station.station_id);
+        stationId17 = station.station_id;
       });
+      
+      /* L.circleMarker([station.lat, station.lng], path_options).addTo(markersLayer).bindPopup(
+      station.station_id);
+      markersLayer.on("click", function (event) {
+          var clickedMarker = event.layer;
+          console.log(clickedMarker)
+      }); */
+    });
+  });
 });
 
 d3.csv("201906 - longest.csv", function(data) {
@@ -251,6 +309,8 @@ d3.csv("201906 - longest.csv", function(data) {
 
 var t17 = null;
 var t19 = null;
+
+// Average times, create bar graphs.
 d3.csv("averageTimePerMonth_2017.csv", function(trip_2017Data){
   d3.csv("averageTimePerMonth_2019.csv", function(trip_2019Data){   
     var t1 = trip_2017Data.map(function(aData)
@@ -354,6 +414,39 @@ var barYAxis = barSvg.append("g")
         setTimeout(waitForElement, 250);
     }
   } 
+
+  function getStationsFromTrips(trips){
+          var stations = [];
+          var indexByStationName = d3.map();
+          var StationNameByIndex = d3.map();
+          var n = 0;
+          trips.forEach(function(trip) {
+            
+            if (!indexByStationName.has(trip.start_station)) {
+              stations.push({
+                station_id : trip.start_station,
+                name : trip.start_station_name,
+                lat : trip.start_station_lat,
+                lng : trip.start_station_lng,
+              });
+              StationNameByIndex.set(n, trip.start_station);
+              indexByStationName.set(trip.start_station, n++);
+            }
+            if (!indexByStationName.has(trip.end_station)) {
+              stations.push({
+                station_id : trip.end_station,
+                name : trip.end_station_name,
+                lat : trip.end_station_lat,
+                lng : trip.end_station_lng,
+              });
+              StationNameByIndex.set(n, trip.end_station);
+              indexByStationName.set(trip.end_station, n++);
+            }
+
+          });
+          number_of_stations = n;
+          return stations;
+        }
 
   // Initialize the plot with the first dataset
   waitForElement()
