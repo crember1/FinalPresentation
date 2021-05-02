@@ -104,10 +104,11 @@ var svg = d3.select("#my_dataviz")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
 
+//These are the variables that contain the id of the clicked station.
 var stationId17 = 0;
 var stationId19 = 0;
 
-
+//Creation of both 2d maps (2017, 2019).
 d3.csv("201706-hubway-tripdata.csv", function(tripData2017) {
   d3.csv("201906-bluebikes-tripdata.csv", function(tripData2019) {
 
@@ -160,6 +161,7 @@ d3.csv("201706-hubway-tripdata.csv", function(tripData2017) {
       return trip;
     });
 
+    // Only getting the information needed from csv file (parsing even more).
     stations2017 = getStationsFromTrips(trips2017);
     stations2019 = getStationsFromTrips(trips2019);
 
@@ -171,6 +173,8 @@ d3.csv("201706-hubway-tripdata.csv", function(tripData2017) {
 
     stations2017.forEach(function(station){
       
+      //Creating a layer for the markers to be able to get the 'event' when they are clicked.
+      //Sourced from: 
       //https://gis.stackexchange.com/a/172586 
       var markersLayer = L.featureGroup().addTo(map_1);
       station.lat = +station.lat;
@@ -213,6 +217,8 @@ d3.csv("201706-hubway-tripdata.csv", function(tripData2017) {
 
     stations2019.forEach(function(station){
       
+      //Creating a layer for the markers to be able to get the 'event' when they are clicked.
+      //Sourced from: 
       //https://gis.stackexchange.com/a/172586 
       var markersLayer = L.featureGroup().addTo(map_2);
       station.lat = +station.lat;
@@ -239,12 +245,6 @@ d3.csv("201706-hubway-tripdata.csv", function(tripData2017) {
         stationId19 = station.station_id;
       });
       
-      /* L.circleMarker([station.lat, station.lng], path_options).addTo(markersLayer).bindPopup(
-      station.station_id);
-      markersLayer.on("click", function (event) {
-          var clickedMarker = event.layer;
-          console.log(clickedMarker)
-      }); */
     });
 
   });
