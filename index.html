@@ -501,7 +501,7 @@ var barYAxis = barSvg.append("g")
   heatHeight = 900 - heatMargin.top - heatMargin.bottom;
 
 // append the svg object to the body of the page
-var svg = d3.select("#heatmap")
+var heatSvg = d3.select("#heatmap")
 .append("svg")
   .attr("width", heatWidth + heatMargin.left + heatMargin.right)
   .attr("height", heatHeight + heatMargin.top + heatMargin.bottom)
@@ -525,7 +525,7 @@ d3.csv("201706-longest-heatmap.csv", function(heat_2017data) {
     .range([ 0, heatWidth])
     .domain(myGroups)
     .padding(.05);
-  svg.append("g")
+    heatSvg.append("g")
     .style("font-size", 5)
     .attr("transform", "translate(0," + heatHeight + ")")
     .call(d3.axisBottom(xheat).tickSize(0))
@@ -537,7 +537,7 @@ d3.csv("201706-longest-heatmap.csv", function(heat_2017data) {
     .range([ heatHeight, 0 ])
     .domain(myVars)
     .padding(0.05);
-  svg.append("g")
+    heatSvg.append("g")
     .style("font-size",5)
     .call(d3.axisLeft(yheat).tickSize(0))
     
@@ -582,7 +582,7 @@ d3.csv("201706-longest-heatmap.csv", function(heat_2017data) {
   }
 
   // add the squares
-  svg.selectAll()
+  heatSvg.selectAll()
     .data(heat_2017data, function(d) {return d.start_station_id+':'+d.end_station_id;})
     .enter()
     .append("rect")
