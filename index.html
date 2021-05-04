@@ -85,9 +85,11 @@
   <button onclick="update(t19)">2019</button>
 
   <div id="tripDurationBarGraph"></div>
+
+<button onclick="updateHeatmap17('201706-longest-heatmap-sort-duration.csv')">Update Heatmap</button>
 <div id="heatmap"></div>
   
-  <div id="heatmap2"></div>
+<!--<div id="heatmap2"></div>-->
 
 <script>
 // set the dimensions and margins of the graph
@@ -499,8 +501,8 @@ var barYAxis = barSvg.append("g")
   waitForElement()
   
   var heatMargin = {top: 30, right: 30, bottom: 70, left: 70},
-  heatWidth = 950 - heatMargin.left - heatMargin.right,
-  heatHeight = 900 - heatMargin.top - heatMargin.bottom;
+  heatWidth = 1700 - heatMargin.left - heatMargin.right,
+  heatHeight = 1700 - heatMargin.top - heatMargin.bottom;
 
 // append the svg object to the body of the page
 var heatSvg = d3.select("#heatmap")
@@ -511,12 +513,9 @@ var heatSvg = d3.select("#heatmap")
   .attr("transform",
         "translate(" + heatMargin.left + "," + heatMargin.top + ")");
 
+
 //Read the data
 d3.csv("201706-longest-heatmap.csv", function(heat_2017data) {
-
-
-  
-
 
   // Labels of row and columns -> unique identifier of the column called 'group' and 'variable'
   var myGroups = d3.map(heat_2017data, function(d){return d.start_station_id;}).keys()
@@ -601,8 +600,9 @@ d3.csv("201706-longest-heatmap.csv", function(heat_2017data) {
     .on("mouseover", mouseover)
     .on("mousemove", mousemove)
     .on("mouseleave", mouseleave)
-});
-      
+
+  });
+  //updateHeatmap17("201706-longest-heatmap.csv");
  
   
   
@@ -610,8 +610,8 @@ d3.csv("201706-longest-heatmap.csv", function(heat_2017data) {
   
   // set the dimensions and margins of the graph
 var heatMargin2 = {top: 30, right: 30, bottom: 70, left: 70},
-  heatWidth2 = 950 - heatMargin2.left - heatMargin2.right,
-  heatHeight2 = 900 - heatMargin2.top - heatMargin2.bottom;
+  heatWidth2 = 1700 - heatMargin2.left - heatMargin2.right,
+  heatHeight2 = 1700 - heatMargin2.top - heatMargin2.bottom;
 
 // append the svg object to the body of the page
 var svg2 = d3.select("#heatmap2")
@@ -624,9 +624,6 @@ var svg2 = d3.select("#heatmap2")
 
 //Read the data
 d3.csv("201906-longest-heatmap.csv", function(heat_2019data) {
-
-
-  
 
 
   // Labels of row and columns -> unique identifier of the column called 'group' and 'variable'
@@ -714,6 +711,105 @@ d3.csv("201906-longest-heatmap.csv", function(heat_2019data) {
     .on("mouseleave", mouseleave2)
 });
       
+// https://bl.ocks.org/iblind/b394c943fef0aedc569d 
+function updateHeatmap17(fileName)
+{
+  document.getElementById("heatmap").innerHTML = "";
+  // append the svg object to the body of the page
+  var heatSvg = d3.select("#heatmap")
+  .append("svg")
+    .attr("width", heatWidth + heatMargin.left + heatMargin.right)
+    .attr("height", heatHeight + heatMargin.top + heatMargin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + heatMargin.left + "," + heatMargin.top + ")");
+  //Get data, in this case, sorting csv file.
+  d3.csv(fileName, function(heat17) {
+    myGroups = d3.map(heat17, function(d){return d.start_station_id;}).keys()
+    myVars = d3.map(heat17, function(d){return d.end_station_id;}).keys()
+
+     // Build X scales and axis:
+  var xheat = d3.scaleBand()
+    .range([ 0, heatWidth])
+    .domain(myGroups)
+    .padding(.05);
+    heatSvg.append("g")
+    .style("font-size", 5)
+    .attr("transform", "translate(0," + heatHeight + ")")
+    .call(d3.axisBottom(xheat).tickSize(0))
+    .selectAll("text")
+    .attr("transform", "translate(-10,10)rotate(-90)")
+
+  // Build Y scales and axis:
+  var yheat = d3.scaleBand()
+    .range([ heatHeight, 0 ])
+    .domain(myVars)
+    .padding(0.05);
+    heatSvg.append("g")
+    .style("font-size",5)
+    .call(d3.axisLeft(yheat).tickSize(0)) 
+    
+    
+
+  // Build color scale
+  var myColor = d3.scaleSequential()
+    .interpolator(d3.interpolateInferno)
+    .domain([1,10000])
+
+  // create a tooltip
+  var tooltip = d3.select("#heatmap")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "2px")
+    .style("border-radius", "5px")
+    .style("padding", "5px")
+
+  // Three function that change the tooltip when user hover / move / leave a cell
+  var mouseover = function(d) {
+    tooltip
+      .style("opacity", 1)
+    d3.select(this)
+      .style("stroke", "black")
+      .style("opacity", 1)
+  }
+  var mousemove = function(d) {
+    tooltip
+      .html("The duration of this Trip is: " + d.tripduration + "<br>Start Station: " + d.start_station_name + "<br>End Station: " + d.end_station_name)
+      .style("left", (d3.mouse(this)[0]+70) + "px")
+      .style("top", (d3.mouse(this)[1]) + "px")
+  }
+  var mouseleave = function(d) {
+    tooltip
+      .style("opacity", 0)
+    d3.select(this)
+      .style("stroke", "none")
+      .style("opacity", 0.8)
+  }
+
+  // add the squares
+  heatSvg.selectAll()
+    .data(heat17, function(d) {return d.start_station_id+':'+d.end_station_id;})
+    .enter()
+    .append("rect")
+      .attr("x", function(d) { return xheat(d.start_station_id) })
+      .attr("y", function(d) { return yheat(d.end_station_id) })
+      .attr("rx", 4000)
+      .attr("ry", 4000)
+      .attr("width", xheat.bandwidth() )
+      .attr("height", yheat.bandwidth() )
+      .transition().duration(100)
+      .style("fill", function(d) { return myColor(d.tripduration)} )
+      //.style("fill", function(d) { return myColor(d.tripduration)} )
+      .style("stroke-width", 4)
+      .style("stroke", "none")
+      .style("opacity", 0.8)
+
+    
+  });
+}
 
 </script>
 
