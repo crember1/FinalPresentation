@@ -103,15 +103,15 @@
 
 
 <div style="width:610px; height:600px;float:left; margin: 10px; ">
-  <h6>Average Trip Duration</h6>
+  <h5>Average Trip Duration</h5>
   <p>Analysis of the average trip durations per month between 2017 and 2019. X axis is month, Y axis is time in minutes.</p>
   <button onclick="update(t17)">2017</button>
   <button onclick="update(t19)">2019</button>
   <div id="tripDurationBarGraph"></div>
 </div>
 <div style="width:610px; height:600px;float:left; margin: 10px; ">
-  <h6>Total Trips</h6>
-  <p>Analysis of the total trips per month. X axis is month, and Y axis is amount of trips.</p>
+  <h5>Total Trips</h5>
+  <p>Analysis of the total trips per month between 2017 and 2019. X axis is month, and Y axis is amount of trips.</p>
   <button onclick="updateTrip(b17)">2017</button>
   <button onclick="updateTrip(b19)">2019</button>
   <div id="totalTripsBarGraph"></div>
@@ -123,9 +123,9 @@
 
   <div  class="container one-bottom"> 
     <div class="twelve columns">
-      <h3>Heatmap</h3>
+      <h3>Long Trips</h3>
       <p>
-      These heatmaps sort the trip data from June 2017 and June 2019 by highest trip duration and by station id. Each station id and its corresponding location for each data set is shown in the maps above, In each heatmap, the x axis represents the start location of the trip and the y axis represents the end location. Darker colors represent shorter trips, while lighter colors represent longer trips. 
+      Sorts the trip data from June 2017 and June 2019 by highest trip duration and by station id. Each station id and its corresponding location for each data set is shown in the maps above, In each heatmap, the x axis represents the start location of the trip and the y axis represents the end location. Darker colors represent shorter trips, while lighter colors represent longer trips. 
       </p>
     <!-- </div>
   </div>
@@ -143,12 +143,13 @@
  <div class="container one-bottom">
   <div class="twelve columns">
    <div>
-    <h3>Arc Graph</h3>
+    <h3>Average Trip Durations at Popular Stations</h3>
+     <h4>Harvard Square at Mass Ave/ Dunster</h4>
      <iframe  src="https://kepler.gl/demo/map?mapUrl=https://dl.dropboxusercontent.com/s/1bksfvakm8vcc4z/keplergl_0ec8r59.json
       " style="border:0px #ffffff none;" name="myiFrame" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="700px" width="1500px" allowfullscreen></iframe>
       </div>
       <div>
-      <h4>Arc Graph</h4>
+      <h4>Beacon St at Arlington St</h4>
       <iframe  src="https://kepler.gl/demo/map?mapUrl=https://dl.dropboxusercontent.com/s/27u6q2qi14utpcs/keplergl_1jq0v2.json
       " style="border:0px #ffffff none;" name="myiFrame" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="700px" width="1500px" allowfullscreen></iframe>
         </div>
@@ -160,7 +161,7 @@
   <h5 >Ryan Carriere</h5>
   <p >Ryan Carriere contributed to creating the graphs in the Blue Bikes today section. Also helped with coding.</p>
   <h5>Coral Rembert</h5>
-  <p>Coral Rembert contributed to creating the Github page, finding data and figuring out what data to represent, research question, page layout and narrative organization, impact section verbage, and adding pictures.</p>
+  <p>Coral Rembert contributed to creating the Github page, finding data and figuring out what data to represent, research question, page layout and narrative organization, kepler graphs, and text for kepler graphs.</p>
   <h5 >Anibal Robles</h5>
   <p >Anibal Robles contributed to parsing the csv files to get number of trips, trip duration, and trips per station (used in the interactive bar graphs). He also contributed by creating the bar graphs, adding the 2d maps, and creating the function for updating the heatmaps.</p>
   <h5 >Brian Ferrell</h5>
