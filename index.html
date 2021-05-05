@@ -51,7 +51,8 @@
       </p>
     </div>
     <div class="two columns">
-    <a href="https://www.bluebikes.com/" target="blank"><img class="scale-with-grid"src="img/bluebikes.jpg" height = "150" width = "300" style="float:right;"></a>
+    <!--<a href="https://www.bluebikes.com/" target="blank"><img class="scale-with-grid"src="img/bluebikes.jpg" height = "150" width = "300" style="float:right;"></a>-->
+    <a href="https://urbansynergeticslab.net/"><img class="scale-with-grid" src="img/LabLogo_dark_cropped.png"></a>
     </div>
   </div>
 
@@ -114,6 +115,8 @@ var svg = d3.select("#my_dataviz")
 //These are the variables that contain the id of the clicked station.
 var stationId17 = 0;
 var stationId19 = 0;
+var currentData2017 = null;
+var currentData2019 = null;
 
 //Creation of both 2d maps (2017, 2019).
 d3.csv("201706-hubway-tripdata.csv", function(tripData2017) {
@@ -450,7 +453,7 @@ var barYAxis = barSvg.append("g")
         .attr("y", function(d) { return barY(d.value); })
         .attr("width", barX.bandwidth())
         .attr("height", function(d) { return barHeight - barY(d.value); })
-        .attr("fill", "#69b3a2")
+        .attr("fill", "#a56abd")
 
       // If less group in the new dataset, I delete the ones not in use anymore
       u
@@ -908,6 +911,11 @@ var svg2 = d3.select("#heatmap2")
 
     
   });
+}
+
+function updateByStationIndex(anIndex)
+{
+  
 }
 
 </script>
