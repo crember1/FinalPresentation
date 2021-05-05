@@ -101,11 +101,19 @@
 </div>
 
 
-<div>
+<div style="width:610px; height:600px;float:left; margin: 10px; ">
+  <p>Bar graph displaying the average trip duration per month. X axis is month, Y axis is time in minutes.</p>
   <button onclick="update(t17)">2017</button>
   <button onclick="update(t19)">2019</button>
   <div id="tripDurationBarGraph"></div>
 </div>
+<div style="width:610px; height:600px;float:left; margin: 10px; ">
+  <p>Bar graph displaying the total trips per month. X axis is month, Y axis is amount of trips.</p>
+  <button onclick="updateTrip(b17)">2017</button>
+  <button onclick="updateTrip(b19)">2019</button>
+  <div id="totalTripsBarGraph"></div>
+</div>
+
 <p>Sorting: </p>
 <button onclick="updateHeatmap17('201706-longest-heatmap-sort-duration.csv')">2017 By highest trip duration.</button>
 <button onclick="updateHeatmap17('201706-longest-heatmap-sort-shortest.csv')">2017 By station id.</button>
@@ -278,7 +286,7 @@ d3.csv("201706-hubway-tripdata.csv", function(tripData2017) {
   });
 });
 
-d3.csv("201906 - longest.csv", function(data) {
+/* d3.csv("201906 - longest.csv", function(data) {
 
 
     var nodeNames = data.map(function(d){return d.name})
@@ -378,10 +386,12 @@ d3.csv("201906 - longest.csv", function(data) {
 
                   })
 
-});
+}); */
 
 var t17 = null;
 var t19 = null;
+var b17 = null;
+var b19 = null;
 
 // Average times, create bar graphs.
 d3.csv("averageTimePerMonth_2017.csv", function(trip_2017Data){
@@ -409,6 +419,31 @@ d3.csv("averageTimePerMonth_2017.csv", function(trip_2017Data){
   });
 });
 
+// Average times, create bar graphs.
+d3.csv("totalTripsPerMonth_2017.csv", function(trip_2017Data){
+  d3.csv("totalTripsPerMonth_2019.csv", function(trip_2019Data){   
+    var t1 = trip_2017Data.map(function(aData)
+    {
+      var trip = {};
+
+      trip.month = aData["month"];
+      trip.value = +aData["value"];
+      return trip;
+    });
+    var t2 = trip_2019Data.map(function(aData)
+    {
+      var trip = {};
+
+      trip.month = aData["month"];
+      trip.value = +aData["value"];
+      return trip;
+    });
+    
+    b17 = t1
+    b19 = t2
+    updateTrip(b17)
+  });
+});
 //From: https://stackoverflow.com/a/56216283 
 /* (async() => {
     console.log("waiting for variable");
@@ -423,6 +458,7 @@ var barMargin = {top: 30, right: 30, bottom: 70, left: 60},
     barWidth = 460 - barMargin.left - barMargin.right,
     barHeight = 400 - barMargin.top - barMargin.bottom;
 
+
 // append the svg object to the body of the page
 var barSvg = d3.select("#tripDurationBarGraph")
   .append("svg")
@@ -431,6 +467,16 @@ var barSvg = d3.select("#tripDurationBarGraph")
   .append("g")
     .attr("transform",
           "translate(" + barMargin.left + "," + barMargin.top + ")");
+
+// append the svg object to the body of the page
+var barSvg2 = d3.select("#totalTripsBarGraph")
+  .append("svg")
+    .attr("width", barWidth + barMargin.left + barMargin.right)
+    .attr("height", barHeight + barMargin.top + barMargin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + barMargin.left + "," + barMargin.top + ")");
+
 
 // Initialize the X axis
 var barX = d3.scaleBand()
@@ -443,6 +489,20 @@ var barXAxis = barSvg.append("g")
 var barY = d3.scaleLinear()
   .range([ barHeight, 0]);
 var barYAxis = barSvg.append("g")
+  .attr("class", "myYaxis")
+
+
+// Initialize the X axis
+var barX2 = d3.scaleBand()
+  .range([ 0, barWidth ])
+  .padding(0.2);
+var barXAxis2 = barSvg2.append("g")
+  .attr("transform", "translate(0," + barHeight + ")")
+
+// Initialize the Y axis
+var barY2 = d3.scaleLinear()
+  .range([ barHeight, 0]);
+var barYAxis2 = barSvg2.append("g")
   .attr("class", "myYaxis")
 
   // A function that create / update the plot for a given variable:
@@ -471,7 +531,7 @@ var barYAxis = barSvg.append("g")
         .attr("y", function(d) { return barY(d.value); })
         .attr("width", barX.bandwidth())
         .attr("height", function(d) { return barHeight - barY(d.value); })
-        .attr("fill", "#a56abd")
+        .attr("fill", "#3d68f2")
 
       // If less group in the new dataset, I delete the ones not in use anymore
       u
@@ -485,6 +545,49 @@ var barYAxis = barSvg.append("g")
     }
     else{
         setTimeout(waitForElement, 250);
+    }
+  }
+
+  // A function that create / update the plot for a given variable:
+  function updateTrip(data) {
+
+      console.log(data)
+      // Update the X axis
+      barX2.domain(data.map(function(d) { return d.month; }))
+      barXAxis2.call(d3.axisBottom(barX2))
+
+      // Update the Y axis
+      barY2.domain([0, d3.max(data, function(d) { return d.value }) ]);
+      barYAxis2.transition().duration(1000).call(d3.axisLeft(barY2));
+
+      // Create the u variable
+      var u = barSvg2.selectAll("rect")
+        .data(data)
+
+      u
+        .enter()
+        .append("rect") // Add a new rect for each new elements
+        .merge(u) // get the already existing elements as well
+        .transition() // and apply changes to all of them
+        .duration(1000)
+          .attr("x", function(d) { return barX2(d.month); })
+          .attr("y", function(d) { return barY2(d.value); })
+          .attr("width", barX2.bandwidth())
+          .attr("height", function(d) { return barHeight - barY2(d.value); })
+          .attr("fill", "#f07171")
+
+        // If less group in the new dataset, I delete the ones not in use anymore
+        u
+        .exit()
+        .remove()
+      }
+  function waitForElement2(){
+    if((typeof b17 !== "undefined") || (typeof b19 !== "undefined")){
+        //variable exists, do what you want
+        return;
+    }
+    else{
+        setTimeout(waitForElement2, 250);
     }
   } 
 
