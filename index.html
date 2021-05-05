@@ -67,6 +67,7 @@
     <a href="https://urbansynergeticslab.net/"><img class="scale-with-grid" src="img/LabLogo_dark_cropped.png"></a>
     </div>
   </div>
+ <div class="container one-bottom">
   <div class="twelve columns">
     <h3>Introduction</h3>
     <p>
@@ -75,6 +76,7 @@
    <h3>Expansion and Transformation</h3>
    <p>In 2017, Hubway announced a large expansion that would fill in the current network and expand to new neighboring areas. In the following year, Blue Cross Blue Shield of Massachusetts sponsored the system and Hubway was rebranded to BlueBikes with an addition of 100 stations and expansion to 3000 bikes. With the systems rebranding, the pricing structure and subscription was changed. Hubway offered free rides under 30 minutes, daily passes for $8, three-day passes for $12, and a choice between a $20 monthly pass and a $99 yearly membership for regular users. Low income residents and employees at sponsored companies received discounted or subsidized memberships. As a result,  Hubway’s pricing model favored users who took shorter trips, with casual 1-day pass users paying more per trip than yearly members. Hubway also favored shorter trips by charging fees after the first 30 minutes of a trip. The fees were larger for 24 and 72 hour pass riders than for monthly and yearly members. The transition to Bluebikes introduced a pricing model that encouraged long-term membership, with increased availability year-round. Bluebikes switched to offering $10 one day passes, $25 monthly passes, and $109 annual memberships without the free 30 minute rides for non-members. This project investigates the strategies that the service is using in its expansion with changes in pricing structure and additional stations. By analyzing trip data from June 2017 before the transition to Bluebikes and June 2019 after the expansion, we can test if the rebranding to Bluebikes and the changes in pricing structure influenced user behavior including trip duration, the stations with the most traffic, and the overall number of trips in the month.
    </p>
+  </div>
   </div>
 
 <div style="width:610px; height:600px;float:left; margin: 10px; ">
@@ -110,15 +112,19 @@
   <div id="totalTripsBarGraph"></div>
 </div>
 
-   <div> <h3>Heatmap</h3>
+   <div class="container one-bottom">
+  <div class="twelve columns">
+  <h3>Heatmap</h3>
   <p>
   These heatmaps sort the trip data from June 2017 and June 2019 by highest trip duration and by station id. Each station id and its corresponding location for each data set is shown in the maps above, In each heatmap, the x axis represents the start location of the trip and the y axis represents the end location. Darker colors represent shorter trips, while lighter colors represent longer trips. 
   </p>
 </div>
+  </div>
 <div class="container one-bottom" >
 <p><br></p>
 </div>
-<div class="container one-bottom" >
+<div class="container one-bottom">
+  <div class="twelve columns">
 <p>Sorting: </p>
 <button onclick="updateHeatmap17('201706-longest-heatmap-sort-duration.csv')">2017 By highest trip duration.</button>
 <button onclick="updateHeatmap17('201706-longest-heatmap-sort-shortest.csv')">2017 By station id.</button>
@@ -126,8 +132,10 @@
 <button onclick="updateHeatmap17('201906-longest-heatmap-sort-shortest.csv')">2019 By station id</button>
 <div id="heatmap"></div>
 </div>
+  </div>
   
-  div class="container one-bottom">
+ <div class="container one-bottom">
+  <div class="twelve columns">
    <div>
     <h3>Arc Graph</h3>
      <iframe  src="https://kepler.gl/demo/map?mapUrl=https://dl.dropboxusercontent.com/s/1bksfvakm8vcc4z/keplergl_0ec8r59.json
@@ -139,7 +147,7 @@
       " style="border:0px #ffffff none;" name="myiFrame" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="700px" width="1500px" allowfullscreen></iframe>
         </div>
       </div>
-
+  </div>
 <hr>
 <div class="container one-bottom" >
   <h4 >Team & Contributions</h4>
