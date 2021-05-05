@@ -543,7 +543,7 @@ var barYAxis2 = barSvg2.append("g")
         .attr("y", function(d) { return barY(d.value); })
         .attr("width", barX.bandwidth())
         .attr("height", function(d) { return barHeight - barY(d.value); })
-        .attr("fill", "#3d68f2")
+        .attr("fill", "#8355ed")
 
       // If less group in the new dataset, I delete the ones not in use anymore
       u
@@ -586,7 +586,7 @@ var barYAxis2 = barSvg2.append("g")
           .attr("y", function(d) { return barY2(d.value); })
           .attr("width", barX2.bandwidth())
           .attr("height", function(d) { return barHeight - barY2(d.value); })
-          .attr("fill", "#f07171")
+          .attr("fill", "#8355ed")
 
         // If less group in the new dataset, I delete the ones not in use anymore
         u
