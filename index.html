@@ -79,19 +79,19 @@
   </div>
 
 
-<div style="width:610px; height:600px;float:left; margin: 10px; ">
+<!-- <div style="width:610px; height:600px;float:left; margin: 10px; ">
   <h5>Hubway Station Locations (2017)</h5>
   <p>
     Hubway station locations in the Boston, Cambridge, Brookline, and Somerville areas as of 2017. Pre-Rebranding and Expansion.
   </p>
-
-
   <div id="map_1"></div>
-</div>
-<div style="width:610px; height:600px;float:left; margin: 10px;">
+</div> -->
+
+
+<div style="width:610px; height:600px; margin: 10px;">
   <h5>Blue Bike Station Locations (2019)</h5>
   <p>
-    Blue Bike station locations with expanded station locations in existing station areas and the Everett, Mattapan, Roslindale, and Dorchester areas as of 2019. Post-Rebranding and Expansion.
+    Hubway (red) and Blue Bike (blue) station locations with expanded station locations in existing station areas and the Everett, Mattapan, Roslindale, and Dorchester areas as of 2019. Post-Rebranding and Expansion.
   </p>
  <div id="map_2"></div>
 </div>
@@ -215,6 +215,8 @@ d3.csv("201706-hubway-tripdata.csv", function(tripData2017) {
 
     var parseTime = d3.timeParse("%Y-%m-%d %H:%M:%S");
 
+    var stationNameArray = [];
+
     var trips2017 = tripData2017.map(function(aData)
     {
       var trip = {};
@@ -234,7 +236,9 @@ d3.csv("201706-hubway-tripdata.csv", function(tripData2017) {
       trip.end_station_lng = +aData["end station longitude"];
       trip.bikeid = +aData["bikeid"];
       trip.usertype = aData["usertype"];
-      
+
+      stationNameArray.push(trip.start_station_name);
+
       return trip;
     });
 
@@ -265,7 +269,7 @@ d3.csv("201706-hubway-tripdata.csv", function(tripData2017) {
     stations2017 = getStationsFromTrips(trips2017);
     stations2019 = getStationsFromTrips(trips2019);
 
-    var map_1 = L.mapbox.map('map_1')
+/*     var map_1 = L.mapbox.map('map_1')
       .setView([42.3601,-71.0589], 12)
       .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/light-v10'));
       map_1
@@ -306,8 +310,8 @@ d3.csv("201706-hubway-tripdata.csv", function(tripData2017) {
       markersLayer.on("click", function (event) {
           var clickedMarker = event.layer;
           console.log(clickedMarker)
-      }); */
-    });
+      }); /
+    }); */
 
     var map_2 = L.mapbox.map('map_2')
       .setView([42.3601,-71.0589], 12)
@@ -326,14 +330,29 @@ d3.csv("201706-hubway-tripdata.csv", function(tripData2017) {
       
       var path_options = {};
 
-      path_options = {
-        radius :  6,
-        color : d3.rgb(166,16,16).brighter(),
-        stroke: true,
-        weight : 1,
-        fill : true,
-        Color: d3.rgb(166,16,16).brighter(),
-      };
+      if(stationNameArray.includes(station.name))
+      {
+        path_options = {
+          radius :  6,
+          color : d3.rgb(166,16,16).brighter(),
+          stroke: true,
+          weight : 1,
+          fill : true,
+          Color: d3.rgb(166,16,16).brighter(),
+        };
+      }
+      else
+      {
+        path_options = {
+          radius :  6,
+          color : d3.rgb(16,52,166).brighter(),
+          stroke: true,
+          weight : 1,
+          fill : true,
+          Color: d3.rgb(16,52,166).brighter(),
+        };
+      }
+      
 
       L.circleMarker([station.lat, station.lng], path_options).addTo(markersLayer).bindPopup(
           "Station Name: " + station.name 
@@ -578,7 +597,7 @@ var barYAxis2 = barSvg2.append("g")
     barXAxis.call(d3.axisBottom(barX))
 
     // Update the Y axis
-    barY.domain([0, d3.max(data, function(d) { return d.value }) ]);
+    barY.domain([0, 60]);//d3.max(data, function(d) { return d.value }) ]);
     barYAxis.transition().duration(1000).call(d3.axisLeft(barY));
 
     // Create the u variable
@@ -621,7 +640,7 @@ var barYAxis2 = barSvg2.append("g")
       barXAxis2.call(d3.axisBottom(barX2))
 
       // Update the Y axis
-      barY2.domain([0, d3.max(data, function(d) { return d.value }) ]);
+      barY2.domain([0, 400000]);//d3.max(data, function(d) { return d.value }) ]);
       barYAxis2.transition().duration(1000).call(d3.axisLeft(barY2));
 
       // Create the u variable
