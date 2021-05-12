@@ -52,7 +52,6 @@
   <div class="container one-bottom" style="margin-top: 50px">
     <div class="ten columns">
       <h2>Hubway to Blue Bikes</h2>
-      <h4>What was the impact of re-branding on Boston's bike share system regarding trip duration?</h4>
       <p>
         ARCH 6306/6050, DSBA 6010, ITIS 8010/6010: Wednesdays 6pm-8:30pm, Taught Online
         <br>
@@ -72,9 +71,6 @@
       <h4>Introduction</h4>
       <p>
       In this project, we explore how the removal of the 30-minute free ride policy as a result of the rebranding of Boston’s bike-sharing system was reflected in user behavior. Boston’s bike-sharing system, Hubway, launched in July of 2011 with 610 bicycles and 61 stations covering a footprint of approximately 20 square miles in downtown Boston and its immediately surrounding neighborhoods. Brookline, Cambridge, and Somerville launched stations in 2012, and Hubway rides continued to grow exponentially. Before Hubway’s rebranding to Bluebikes, the system had expanded to include 185 stations with 1800 bicycles.</p>
-    <h4>Expansion and Transformation</h4>
-    <p>In 2017, Hubway announced a large expansion that would fill in the current network and expand to new neighboring areas. In the following year, Blue Cross Blue Shield of Massachusetts sponsored the system and Hubway was rebranded to BlueBikes with the addition of new stations and expansion to 3000 bikes. With the systems rebranding, the pricing structure and subscription model were changed. Hubway offered free rides under 30 minutes, daily passes for $8, three-day passes for $12, and a choice between a $20 monthly pass and a $99 yearly membership for regular users. Low-income residents and employees at sponsored companies received discounted or subsidized memberships. As a result,  Hubway’s pricing model favored users who took shorter trips, with casual 1-day pass users paying more per trip than yearly members. Hubway also favored shorter trips by charging fees after the first 30 minutes of a trip. The fees were larger for 24 and 72-hour pass riders than for monthly and yearly members. The transition to Bluebikes introduced a pricing model that encouraged long-term membership, with increased availability year-round. Bluebikes switched to offering $10 one-day passes, $25 monthly passes, and $109 annual memberships without the free 30 minute rides for non-members. This project investigates the strategies that the service is using in its expansion with changes in pricing structure and additional stations. By analyzing trip data from June 2017 before the transition to Bluebikes and June 2019 after the expansion, we can visualize user behavior including trip duration, the stations with the most traffic, and the overall number of trips in the month.
-    </p>
     </div>
   </div>
 
@@ -99,17 +95,24 @@
 <div class="container one-bottom" style="clear: both;">
 <p><br></p>
 </div>
-
+  
+<div class="container one-bottom">
+  <div class="twelve columns">
+   <div>
+  <h4>Expansion and Transformation</h4>
+    <p>In 2017, Hubway announced a large expansion that would fill in the current network and expand to new neighboring areas including Everett, Mattapan, Roslindale, and Dorchester. In the following year, Blue Cross Blue Shield of Massachusetts sponsored the system and Hubway was rebranded to Blue Bikes with the addition of new stations and expansion to 3000 bikes. This project investigates the strategies that the service is using in its expansion with changes in pricing structure and additional stations. By analyzing trip data from June 2017 before the transition to Bluebikes and June 2019 after the expansion, we can visualize user behavior including trip duration, the stations with the most traffic, and the overall number of trips in the month.
+    </p>
+</div>
 
 <div style="width:610px; height:600px;float:left; margin: 10px; ">
-  <h5>Average Trip Duration</h5>
+  <h5>Average Trip Duration INCREASES</h5>
   <p>Analysis of the average trip durations per month between 2017 and 2019. X axis is month, Y axis is time in minutes.</p>
   <button onclick="update(t17)">2017</button>
   <button onclick="update(t19)">2019</button>
   <div id="tripDurationBarGraph"></div>
 </div>
 <div>
-  <h5>Total Trips</h5>
+  <h5>Significantly MORE Total Trips</h5>
   <p>Analysis of the total trips per month between 2017 and 2019. X axis is month, and Y axis is amount of trips.</p>
   <button onclick="updateTrip(b17)">2017</button>
   <button onclick="updateTrip(b19)">2019</button>
@@ -166,15 +169,6 @@
       </div>
   </div>
 <hr>
-  
-   </div>
-  <div class="container one-bottom" style="margin-top: 50px">
-    <div class="ten columns">
-      <h4>Conclusion</h4>
-      <p>
-     The original Hubway bike-sharing system in Boston utilized a pricing and subscription model that encouraged shorter trips by allowing unlimited 30-minute trips with the purchase of a pass or membership for the service. With the system’s expansion and rebranding to Bluebikes, the pricing and subscription model was changed in a way that could potentially increase the number of long-term members and trips over 30 minutes. This change slightly increased daily membership passes and extended the ride time before additional fees were charged to 2 hours. The number of casual passes sold increased significantly as well, from 95,299 in 2017 to 462,646 in 2019. When the service was first introduced to Boston, Hubway’s focus on shorter trips may have helped introduce the service to more people and increase use among visitors to the area. The rebrand seems to have geared the service more towards residents of Boston and commuters from its surrounding neighborhoods by expanding to further reaching neighborhoods such as Everett and Roslindale. Through the arc diagrams, we are able to see the difference in the number of long-distance trips between the top 2 stations in Boston and the new stations in residential areas. In 2017, the most popular areas were Harvard Square and Back Bay. Many new trips after the expansion in 2019 came from the addition of Cambridge and other surrounding neighborhoods. Our analysis has shown that the expansion from Hubway to Bluebikes resulted in an increase in average trip duration in some cases and more long trips between downtown Boston and the surrounding neighborhoods. This can be attributed not only to the rise in popularity of Boston’s bike-sharing system but also to the expansion that occurred in further reaching residential areas.      </p>
-    </div>
-  </div>
   
 <div class="container one-bottom" >
   <h4 >Team & Contributions</h4>
