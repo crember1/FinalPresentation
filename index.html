@@ -71,6 +71,9 @@
       <h4>Introduction</h4>
       <p>
       In this project, we explore how the removal of the 30-minute free ride policy as a result of the rebranding of Boston’s bike-sharing system was reflected in user behavior. Boston’s bike-sharing system, Hubway, launched in July of 2011 with 610 bicycles and 61 stations covering a footprint of approximately 20 square miles in downtown Boston and its immediately surrounding neighborhoods. Brookline, Cambridge, and Somerville launched stations in 2012, and Hubway rides continued to grow exponentially. Before Hubway’s rebranding to Bluebikes, the system had expanded to include 185 stations with 1800 bicycles.</p>
+    <h4>Expansion and Transformation</h4>
+    <p>In 2017, Hubway announced a large expansion that would fill in the current network and expand to new neighboring areas including Everett, Mattapan, Roslindale, and Dorchester. In the following year, Blue Cross Blue Shield of Massachusetts sponsored the system and Hubway was rebranded to Blue Bikes with the addition of new stations and expansion to 3000 bikes. This project investigates the strategies that the service is using in its expansion with changes in pricing structure and additional stations. By analyzing trip data from June 2017 before the transition to Bluebikes and June 2019 after the expansion, we can visualize user behavior including trip duration, the stations with the most traffic, and the overall number of trips in the month.
+    </p>
     </div>
   </div>
 
@@ -98,14 +101,14 @@
 
 <div style="width:610px; height:600px;float:left; margin: 10px; ">
   <h5>Average Trip Duration INCREASES</h5>
-  <p>Analysis of the average trip durations per month between 2017 and 2019. X axis is month, Y axis is time in minutes.</p>
+  <p>Average trip duration increases from 2017 to 2019. X axis is month, Y axis is time in minutes.</p>
   <button onclick="update(t17)">2017</button>
   <button onclick="update(t19)">2019</button>
   <div id="tripDurationBarGraph"></div>
 </div>
 <div>
   <h5>Significantly MORE Total Trips</h5>
-  <p>Analysis of the total trips per month between 2017 and 2019. X axis is month, and Y axis is amount of trips.</p>
+  <p>There were significantly more total trips being taken in 2019 than in 2017. X axis is month, and Y axis is amount of trips.</p>
   <button onclick="updateTrip(b17)">2017</button>
   <button onclick="updateTrip(b19)">2019</button>
   <div id="totalTripsBarGraph"></div>
@@ -113,9 +116,9 @@
 
   <div  class="container one-bottom"> 
     <div class="twelve columns">
-      <h3>Long Trips</h3>
+      <h3>INCREASE In Stations = INCREASE In Long Trips</h3>
       <p>
-      Sorts the trip data from June 2017 and June 2019 by highest trip duration and by station id, considering only "long" trips. These long trips are defined as being more than 30 minutes. Each station id and its corresponding location for each data set is shown in the maps above, In each heatmap, the x-axis represents the start location of the trip and the y axis represents the end location. Darker purple dots represent shorter trips, while lighter yellow dots represent longer trips.
+      The graph below sorts the trip data from June 2017 and June 2019 by highest trip duration and by station id, considering only "long" trips. These long trips are defined as being more than 30 minutes. Each station id and its corresponding location for each data set is shown in the maps above, In each heatmap, the x-axis represents the start location of the trip and the y axis represents the end location. Darker purple dots represent shorter trips, while lighter yellow dots represent longer trips.
       </p>
     <!-- </div>
   </div>
@@ -130,7 +133,7 @@
         The Blue Bike rebranding gave users a way to travel longer distances for a cheaper price while Hubway preferred users to travel shorter distances. In the 2017, station ID heat map shows a few different patterns. Between start stations 10-74, the amount of trips are more dense at all the stations below the end station 80 which locations are Boston, Back Bay, multiple universities including Boston U, and Harvard Square. In 2019, there is a similiar pattern present but with the development of Blue Bikes more stations were added. With the additions of certain stations, Station 370 - Station 388 were add to the similiar areas including Boston, Back Bay, Harvard Square as well as an increases in stations around Cambridge. This allowed users to have many more locations to bike to from the populated areas across the bridge. 
         </p>
         <p >
-          Another interesting pattern was the stations around Boston Logan Airport. The airport stations in both heat maps, have a very similiar pattern. Both do not show a significant amount of incoming and outgoing bike trips; however station 209 has a large amount of outgoing bike trips. After some investigation, station 209 is the one of the only area close enough to Boston Logan Internatioal Airport to grab a bite and then take a smooth bike ride home. As we were looking at the data, we found it hard to find a pattern in both maps sorted by trip duration. In both instances, there is a diagonal line of the longest trips but ends half-way up the map. There was one station we noticed in both instance that expresses unreasonable long trips, Station 1.  
+          Another interesting pattern was the stations around Boston Logan Airport. The airport stations in both heat maps, have a very similiar pattern. Both do not show a significant amount of incoming and outgoing bike trips; however station 209 has a large amount of outgoing bike trips. After some investigation, station 209 is the one of the only area close enough to Boston Logan International Airport to grab a bite and then take a smooth bike ride home. As we were looking at the data, we found it hard to find a pattern in both maps sorted by trip duration. In both instances, there is a diagonal line of the longest trips but ends half-way up the map. There was one station we noticed in both instance that expresses unreasonable long trips, Station 1.  
         
         </p>
          
@@ -141,7 +144,7 @@
  <div class="container one-bottom">
   <div class="twelve columns">
    <div>
-    <h4>Significantly MORE long trips</h4>
+    <h4>Significantly MORE Long Trips</h4>
      <p>There were significantly more long trips being taken from the top two most popular stations in June of 2019 when compared to June of 2017. This can be attributed not only to the rise in popularity of Boston’s bike sharing system post-rebrand, but also to the expansion that occurred in further reaching residential areas</p>
      <iframe  src="https://kepler.gl/demo/map?mapUrl=https://dl.dropboxusercontent.com/s/1bksfvakm8vcc4z/keplergl_0ec8r59.json
       " style="border:0px #ffffff none;" name="myiFrame" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="500px" width="1000px" allowfullscreen></iframe>
