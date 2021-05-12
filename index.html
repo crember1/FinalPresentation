@@ -119,6 +119,25 @@
  
     </div>
   </div>
+   <div>
+     <h4>Top 9 Stations 2017 vs 2019 Counterpart</h4>
+     <p>
+       Takes the top 9 stations from the 2017 dataset and compares them to their 2019. We had to take out station 47 because it did not exist in 2019.
+     </p>      
+     <div style="width:610px; height:600px;float:left; margin: 10px; ">
+        <button onclick="updateFun1(funbar2)">Trips per Station 2017</button>
+        <button onclick="updateFun1(funbar3)">Trips per Station 2019</button>
+          <div id="funbar1"></div>
+     </div>
+<div style="width:610px; height:600px;float:left; margin: 10px; ">
+     <button onclick="updateFun(funbar)">Average Trip 2017</button>
+     <button onclick="updateFun(funbar1)">Average Trip 2019</button>
+      <div id="funbar"></div>
+      </div>
+      <p>
+        As shown on the left, the number of trips taken at each station almost doubled in 2019. This shows the exponential growth of the areas in and outside the city. As shown on the right the average trip per station also increases in 2019. Station 74 does not increase but decrease. We believe that the double in trips from about 450 to 970 result in a skewed average in this care.  
+      </p>
+  </div>
   
  <div class="container one-bottom">
   <div class="twelve columns">
@@ -530,6 +549,184 @@ var barYAxis2 = barSvg2.append("g")
   // Initialize the plot with the first dataset
   waitForElement()
   
+  
+  // create 2 data_set
+ var funbar = [
+     {group: "36", value: 4497.453704},
+     {group: "42", value: 4966.813043},
+     {group: "53", value: 5298.559633},
+     {group: "54", value: 3631.588542},
+     {group: "58", value: 4260.609418},
+     {group: "60", value: 4786.5},
+     {group: "67", value: 3471.844828},
+     {group: "73", value: 10888.25532},
+     {group: "74", value: 5522.995565}
+  ];
+  var funbar1 = [
+     {group: "36", value: 24139.27295},
+     {group: "42", value: 42370.90708},
+     {group: "53", value: 20425.90562},
+     {group: "54", value: 13702.1038},
+     {group: "58", value: 5559.787554},
+     {group: "60", value: 6716.727428},
+     {group: "67", value: 6022.514178},
+     {group: "73", value: 4526.786982},
+     {group: "74", value: 3685.744593}
+  ];
+
+
+  // set the dimensions and funMargins of the graph
+  var funMargin = {top: 30, right: 30, bottom: 70, left: 60},
+      funWidth = 460 - funMargin.left - funMargin.right,
+      funHeight = 400 - funMargin.top - funMargin.bottom;
+  
+  // append the funSvg object to the body of the page
+  var funSvg = d3.select("#funbar")
+    .append("svg")
+      .attr("width", funWidth + funMargin.left + funMargin.right)
+      .attr("height", funHeight + funMargin.top + funMargin.bottom)
+    .append("g")
+      .attr("transform",
+            "translate(" + funMargin.left + "," + funMargin.top + ")");
+  
+  // Initialize the X axis
+  var funX = d3.scaleBand()
+    .range([ 0, funWidth])
+    .padding(0.2);
+  var funXaxis = funSvg.append("g")
+    .attr("transform", "translate(0," + funHeight + ")")
+  
+  // Initialize the Y axis
+  var funY = d3.scaleLinear()
+    .range([ funHeight, 0]);
+  var funYaxis = funSvg.append("g")
+    .attr("class", "myYaxis")
+  
+  
+  // A function that create / update the plot for a given variable:
+  function updateFun(data) {
+  
+    // Update the X axis
+    funX.domain(data.map(function(d) { return d.group; }))
+    funXaxis.call(d3.axisBottom(funX))
+  
+    // Update the Y axis
+    funY.domain([0,40000]);
+    funYaxis.transition().duration(1000).call(d3.axisLeft(funY));
+  
+    // Create the u variable
+    var u = funSvg.selectAll("rect")
+      .data(data)
+  
+    u
+      .enter()
+      .append("rect") // Add a new rect for each new elements
+      .merge(u) // get the already existing elements as well
+      .transition() // and apply changes to all of them
+      .duration(1000)
+        .attr("x", function(d) { return funX(d.group); })
+        .attr("y", function(d) { return funY(d.value); })
+        .attr("width", funX.bandwidth())
+        .attr("height", function(d) { return funHeight - funY(d.value); })
+        .attr("fill", "#69b3a2")
+  
+    // If less group in the new dataset, I delete the ones not in use anymore
+    u
+      .exit()
+      .remove()
+  }
+  
+  // Initialize the plot with the first dataset
+  updateFun(funbar)
+
+   // create 2 data_set
+   var funbar2 = [
+     {group: "36", value: 324},
+     {group: "42", value: 230},
+     {group: "53", value: 218},
+     {group: "54", value: 192},
+     {group: "58", value: 361},
+     {group: "60", value: 296},
+     {group: "67", value: 232},
+     {group: "73", value: 235},
+     {group: "74", value: 451}
+  ];
+  var funbar3 = [
+     {group: "36", value: 403},
+     {group: "42", value: 452},
+     {group: "53", value: 498},
+     {group: "54", value: 395},
+     {group: "58", value: 932},
+     {group: "60", value: 587},
+     {group: "67", value: 529},
+     {group: "73", value: 338},
+     {group: "74", value: 971}
+  ];
+
+
+  // set the dimensions and funMargin1s of the graph
+  var funMargin1 = {top: 30, right: 30, bottom: 70, left: 60},
+      funWidth1 = 460 - funMargin1.left - funMargin1.right,
+      funHeight1 = 400 - funMargin1.top - funMargin1.bottom;
+  
+  // append the funSvg1 object to the body of the page
+  var funSvg1 = d3.select("#funbar1")
+    .append("svg")
+      .attr("width", funWidth1 + funMargin1.left + funMargin1.right)
+      .attr("height", funHeight1 + funMargin1.top + funMargin1.bottom)
+    .append("g")
+      .attr("transform",
+            "translate(" + funMargin1.left + "," + funMargin1.top + ")");
+  
+  // Initialize the X axis
+  var funX1 = d3.scaleBand()
+    .range([ 0, funWidth1])
+    .padding(0.2);
+  var funXaxis1 = funSvg1.append("g")
+    .attr("transform", "translate(0," + funHeight1 + ")")
+  
+  // Initialize the Y axis
+  var funY1 = d3.scaleLinear()
+    .range([ funHeight1, 0]);
+  var funYaxis1 = funSvg1.append("g")
+    .attr("class", "myYaxis")
+  
+  
+  // A function that create / update the plot for a given variable:
+  function updateFun1(data) {
+  
+    // Update the X axis
+    funX1.domain(data.map(function(d) { return d.group; }))
+    funXaxis1.call(d3.axisBottom(funX1))
+  
+    // Update the Y axis
+    funY1.domain([0,1000]);
+    funYaxis1.transition().duration(1000).call(d3.axisLeft(funY1));
+  
+    // Create the u variable
+    var u = funSvg1.selectAll("rect")
+      .data(data)
+  
+    u
+      .enter()
+      .append("rect") // Add a new rect for each new elements
+      .merge(u) // get the already existing elements as well
+      .transition() // and apply changes to all of them
+      .duration(1000)
+        .attr("x", function(d) { return funX1(d.group); })
+        .attr("y", function(d) { return funY1(d.value); })
+        .attr("width", funX1.bandwidth())
+        .attr("height", function(d) { return funHeight1 - funY1(d.value); })
+        .attr("fill", "#69b3a2")
+  
+    // If less group in the new dataset, I delete the ones not in use anymore
+    u
+      .exit()
+      .remove()
+  }
+  
+  // Initialize the plot with the first dataset
+  updateFun1(funbar2)
 
 
 </script>
